@@ -1,0 +1,753 @@
+# Technical Architecture: Project 1 → Project 2 Integration
+
+**Version:** 1.0  
+**Date:** September 7, 2026  
+**Scope:** Integration pathway from vertebral segmentation research to surgical navigation systems
+
+---
+
+## 1. System Architecture Overview
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│  SURGICAL NAVIGATION SYSTEM                                     │
+├─────────────────────────────────────────────────────────────────┤
+│                                                                   │
+│  ┌─────────────────────────────────────────────────────────┐   │
+│  │  PLANNING SUBSYSTEM (Pre-operative)                     │   │
+│  │  ┌──────────────────┐    ┌─────────────────────────┐   │   │
+│  │  │ CT Image Input   │───▶│ PROJECT 1: Vertebra     │   │   │
+│  │  │ (3D volume)      │    │ Segmentation & Labeling │   │   │
+│  │  └──────────────────┘    └──────────┬──────────────┘   │   │
+│  │                                      │                   │   │
+│  │  ┌──────────────────┐    ┌──────────▼──────────────┐   │   │
+│  │  │ Surgeon Input:   │    │ Output:                 │   │   │
+│  │  │ - Pathology      │───▶│ - Vertebra masks        │   │   │
+│  │  │ - Target         │    │ - Anatomical labels     │   │   │
+│  │  │ - Approach       │    │ - Centroids             │   │   │
+│  │  └──────────────────┘    │ - Segmentation metrics  │   │   │
+│  │                          └──────────┬──────────────┘   │   │
+│  │  ┌──────────────────┐    ┌──────────▼──────────────┐   │   │
+│  │  │ Surgical         │    │ PLANNING OUTPUT:        │   │   │
+│  │  │ Constraints      │───▶│ - Trajectory planning   │   │   │
+│  │  │ - Instruments    │    │ - Screw coordinates     │   │   │
+│  │  │ - Approach type  │    │ - Implant positions     │   │   │
+│  │  └──────────────────┘    │ - Conflict checks       │   │   │
+│  │                          └─────────────────────────┘   │   │
+│  └─────────────────────────────────────────────────────────┘   │
+│                              │                                  │
+│  ┌───────────────────────────▼───────────────────────────────┐ │
+│  │  INTRAOPERATIVE SUBSYSTEM (Real-time guidance)            │ │
+│  │  ┌──────────────────┐    ┌────────────────────────────┐  │ │
+│  │  │ Patient Position │    │ Registration:              │  │ │
+│  │  │ Reference Frame  │───▶│ - Fiducial matching        │  │ │
+│  │  │ Tracking Markers │    │ - Surface registration     │  │ │
+│  │  └──────────────────┘    │ - Verification            │  │ │
+│  │                          └──────────┬─────────────────┘  │ │
+│  │  ┌──────────────────┐    ┌──────────▼─────────────────┐  │ │
+│  │  │ Optical/EM       │    │ Real-time Guidance:        │  │ │
+│  │  │ Tracking Sensors │───▶│ - Instrument position      │  │ │
+│  │  │ Update 30-120Hz  │    │ - Error visualization      │  │ │
+│  │  └──────────────────┘    │ - Surgeon display          │  │ │
+│  │                          └──────────┬─────────────────┘  │ │
+│  │  ┌──────────────────┐    ┌──────────▼─────────────────┐  │ │
+│  │  │ Intraop Imaging  │    │ Verification Output:       │  │ │
+│  │  │ (Fluoroscopy/CT) │───▶│ - Screw positions         │  │ │
+│  │  │ Optional (3/5)   │    │ - Vertebra confirmation   │  │ │
+│  │  └──────────────────┘    │ - Complication check      │  │ │
+│  │                          └────────────────────────────┘  │ │
+│  └──────────────────────────────────────────────────────────┘ │
+│                              │                                 │
+│  ┌───────────────────────────▼──────────────────────────────┐ │
+│  │  POSTOPERATIVE SUBSYSTEM (Outcome assessment)            │ │
+│  │  ┌──────────────────┐    ┌────────────────────────────┐ │ │
+│  │  │ Postop Imaging   │    │ Outcome Verification:      │ │ │
+│  │  │ (X-ray/CT)       │───▶│ - Screw position check     │ │ │
+│  │  └──────────────────┘    │ - Complication detection   │ │ │
+│  │                          │ - Segmentation accuracy    │ │ │
+│  │                          │ - Guidance performance     │ │ │
+│  │                          └────────────────────────────┘ │ │
+│  └──────────────────────────────────────────────────────────┘ │
+│                                                                 │
+└─────────────────────────────────────────────────────────────────┘
+```
+
+---
+
+## 2. Project 1 Components & Integration Points
+
+### 2.1 CT Preprocessing Pipeline
+
+**Location:** `project1_vertebra_segmentation/src/preprocessing/`
+
+**Input:** Raw DICOM or NIfTI CT volume  
+**Output:** Preprocessed 3D tensor ready for segmentation model
+
+**Processing steps:**
+
+```
+DICOM/NIfTI Load
+    ↓
+[CT Loader: pydicom + nibabel]
+    ↓
+Orientation Standardization (RAS convention)
+    ↓
+[Orientation Transform]
+    ↓
+Voxel Spacing Normalization (target: 1mm isotropic)
+    ↓
+[Resampling via SimpleITK]
+    ↓
+Hounsfield Unit Handling
+    ↓
+[HU windowing: -1000 to +400]
+    ↓
+Intensity Normalization
+    ↓
+[Min-max or z-score normalization]
+    ↓
+ROI Cropping (optional: reduce background)
+    ↓
+[Bounding box computation + padding]
+    ↓
+Tensor Conversion
+    ↓
+[PyTorch/MONAI tensor]
+    ↓
+Output: Preprocessed 3D volume (float32)
+```
+
+**Integration with navigation systems:**
+- **ExcelsiusGPS:** Accepts preprocessed volume directly as planning input
+- **Brainlab:** Requires DICOM metadata preservation (we maintain in MONAI transform)
+- **Stryker:** Expects RAS orientation (our standard output)
+- **7D Surgical:** No preprocessing required; works from raw images
+
+### 2.2 Segmentation Model Pipeline
+
+**Location:** `project1_vertebra_segmentation/src/models/` & `project1_vertebra_segmentation/src/inference/`
+
+**Input:** Preprocessed 3D CT tensor  
+**Output:** 28-class segmentation (7 cervical + 12 thoracic + 5 lumbar + 1 sacrum + 1 background + 1 exclude)
+
+**Architecture:**
+```
+Input: [1, 1, H, W, D] (batch, channels, height, width, depth)
+    ↓
+3D U-Net Encoder:
+  - 5 resolution levels (1x → 32x downsample)
+  - Residual blocks at each level
+  - Parallel downsampling paths
+    ↓
+Bottleneck: [1, 512, h, w, d] (lowest resolution)
+    ↓
+3D U-Net Decoder:
+  - 5 resolution levels (32x → 1x upsample)
+  - Skip connections from encoder
+  - Residual blocks with upsampling
+    ↓
+Final Conv Layer: 1×1×1 convolution → 28 classes
+    ↓
+Softmax → Probability map [1, 28, H, W, D]
+    ↓
+Output: Segmentation map (one-hot encoded or argmax class labels)
+```
+
+**Inference strategy:** Sliding-window patch-based processing to manage GPU memory
+- Patch size: 128×128×128 voxels (typical for A100 GPU)
+- Overlap: 32 voxels between patches (artifact reduction)
+- Post-processing: Majority voting in overlap regions
+- Output stitching: Reconstruct full-volume segmentation
+
+### 2.3 Anatomical Labeling Pipeline
+
+**Location:** `project1_vertebra_segmentation/src/inference/`
+
+**Input:** Segmentation output (28-class mask)  
+**Output:** Labeled vertebra set with anatomical identifiers (C1-L5)
+
+**Algorithm (Sequential Ordinal Regression):**
+
+```
+Step 1: Extract Instance Centroids
+├─ For each segmentation class (C1...S1):
+├─   Extract voxel coordinates
+├─   Compute centroid (x, y, z)
+├─   Store in sorted list (superior → inferior)
+└─ Result: ~26-28 centroid points (ordered by z-axis)
+
+Step 2: Ordinal Classification
+├─ For each centroid, extract local feature region
+├─   Extract 3D neighborhood (64×64×64 around centroid)
+├─   Pass through classifier network
+├─   Output: ordinal class (1st, 2nd, 3rd, ... vertebra)
+├─ Alternative (simpler): Sequential ordering
+├─   Assume strict top-to-bottom order
+├─   Assign labels C1→C2→...→T1→...→L5
+└─ Result: Anatomical labels (C1, C2, ..., L5)
+
+Step 3: Handle Anatomical Variations
+├─ Detect missing vertebrae (gap in sequence)
+├─ Detect fused vertebrae (two classes in contact)
+├─ Detect transitional vertebrae (borderline C7/T1, L5/S1)
+├─ Flag for surgeon review if confidence <80%
+└─ Result: Validated labeling with confidence scores
+```
+
+**Output format:**
+```json
+{
+  "vertebrae": [
+    {
+      "label": "C1",
+      "segmentation_class": 0,
+      "centroid": [x, y, z],
+      "volume_mm3": 1234,
+      "confidence": 0.98,
+      "anatomical_confidence": 0.97
+    },
+    ...
+  ],
+  "total_vertebrae": 26,
+  "anomalies": ["L5_sacralization"],
+  "labeling_quality": "high"
+}
+```
+
+### 2.4 Evaluation Metrics Pipeline
+
+**Location:** `project1_vertebra_segmentation/src/evaluation/`
+
+**Segmentation metrics:**
+- **Dice Similarity Coefficient (DSC):** Per-class and macro-average
+  - Formula: $\text{Dice} = \frac{2|X \cap Y|}{|X| + |Y|}$
+  - Target: >0.90 per vertebra
+- **Intersection over Union (IoU):** Per-class
+  - Formula: $\text{IoU} = \frac{|X \cap Y|}{|X \cup Y|}$
+  - Target: >0.82 per vertebra
+- **Hausdorff Distance:** Symmetric surface distance
+  - Captures topology errors (bridging, gaps)
+  - Target: <2 mm
+- **Surface Distance:** Mean and 95th percentile
+  - Target: Mean <0.5 mm
+
+**Labeling metrics:**
+- **Accuracy:** Per-vertebra labeling correctness (0/1)
+  - Target: >94%
+- **Confusion matrix:** Which vertebra confused with which
+- **Positional error:** Difference from true anatomical position
+
+**Instance separation metrics:**
+- **Connected component analysis:** Ensure each vertebra is single component
+- **Topology check:** No bridges between adjacent vertebrae
+
+### 2.5 Visualization Pipeline
+
+**Location:** `project1_vertebra_segmentation/src/visualization/`
+
+**2D slice visualization:**
+- Axial, coronal, sagittal views
+- Overlay: Ground truth segmentation vs prediction
+- Color-coded by vertebra class
+- Side panel: Per-vertebra Dice scores
+
+**3D rendering:**
+- VTK-based 3D surface rendering
+- Color by vertebra anatomical level (C=blue, T=green, L=red)
+- Interactive rotation/zoom
+- Toggle segmentation on/off
+- Overlay error regions
+
+**Metrics dashboard:**
+- Per-vertebra Dice, IoU, Hausdorff
+- Overall and per-class statistics
+- Labeling confusion matrix
+- Inference timing
+
+---
+
+## 3. Integration with Navigation Workflow
+
+### 3.1 Planning Phase Integration
+
+**Current navigation workflow:**
+1. Surgeon imports CT scan
+2. Manual segmentation or crude auto-segmentation
+3. Surgeon manually identifies target vertebrae
+4. Trajectory planning with selected instruments
+5. Surgeon reviews and approves plan
+
+**With Project 1 integration:**
+1. Surgeon imports CT scan
+2. **[AUTOMATED]** Project 1 segmentation/labeling runs automatically (~5-10 sec)
+3. **[NEW]** Segmentation confidence score displayed (high/medium/low confidence flags)
+4. **[NEW]** Suggested surgical targets based on segmentation
+5. Surgeon reviews auto-generated plan (faster than manual)
+6. Manual adjustments if needed (vertebra relabeling, trajectory tweaks)
+7. Approved plan proceeds to registration
+
+**Expected time savings:** 30-45 minutes (currently: 60-90 minutes manual planning)
+
+**Integration points:**
+- **StealthStation:** Custom planning module via StealthStation API
+- **ExcelsiusGPS:** Direct integration with Globus planning software (C++)
+- **Brainlab:** iPlan integration (DICOM-based workflow)
+- **Stryker:** Custom module via Stryker SDK
+- **7D Surgical:** Real-time segmentation in their AI-based planning
+
+### 3.2 Intraoperative Guidance Integration
+
+**Real-time segmentation during surgery:**
+
+```
+INTRAOPERATIVE SEGMENTATION PATHWAY
+(Optional: for advanced systems with live imaging)
+
+Patient positioned + Reference frame installed
+    ↓
+Live fluoroscopy or cone-beam CT acquired
+    ↓
+[Lightweight segmentation model]
+    ↓
+Fast inference: <2 seconds per volume
+    ↓
+Real-time output: Vertebra positions + segmentation
+    ↓
+Compare to preoperative plan:
+  - Detect patient shift (>5mm alert surgeon)
+  - Update guidance targets dynamically
+  - Adjust screw trajectory if needed
+    ↓
+Continuous guidance with intraoperative adaptation
+```
+
+**Lightweight model for intraoperative use:**
+- Requires sub-2-second inference (for OR workflow)
+- Model: Lightweight 3D U-Net (fewer channels)
+- Input: Lower resolution (2mm isotropic) or partial volume
+- Tradeoff: Accuracy 88-90% (vs 92% offline)
+- Deployment: GPU compute in navigation system
+
+**Systems with intraoperative imaging:**
+- **Brainlab:** iCT system (intraoperative cone-beam CT)
+- **7D Surgical:** Real-time 3D imaging native
+- **Stryker:** Fluoroscopy integration (can do real-time segmentation)
+
+### 3.3 Instrument Tracking Integration
+
+**Vertebra-specific instrument calibration:**
+
+Project 1 outputs vertebra-specific anatomy which can guide instrument calibration:
+
+```
+INSTRUMENT CALIBRATION WORKFLOW
+
+Step 1: Reference anatomy
+├─ Segmentation provides vertebra positions/orientations
+├─ Surgeon places reference frame on known vertebra
+└─ Confirms reference frame position against segmentation
+
+Step 2: Surgical instruments
+├─ Pedicle screw guide: Aligned to segmented pedicle trajectory
+├─ Osteotome: Positioned relative to vertebra boundary
+├─ Drill bit: Depth limit set from segmented vertebra height
+└─ Each instrument calibrated relative to segmented anatomy
+
+Step 3: Tracking verification
+├─ Confirm tracked instruments align with segmented targets
+├─ Compute target registration error (TRE)
+├─ Alert if discrepancy >2mm
+└─ Recalibrate if needed
+
+Result: Anatomy-aware instrument calibration
+```
+
+**Benefits:**
+- Faster calibration (automated vs manual verification)
+- Safer (explicit anatomy-based constraints)
+- Reduced complications (screw misplacement awareness)
+
+---
+
+## 4. Data Flow & System Boundaries
+
+### 4.1 Input Data Specifications
+
+**Preoperative phase:**
+- CT DICOM series or single NIfTI file
+- Voxel spacing: 0.5-2 mm (we normalize to 1 mm)
+- Typical volume size: 512×512×400 voxels = 200 MB uncompressed
+- Anatomy: C1-L5 (ideally full spine)
+
+**Constraints:**
+- Field-of-view must include target vertebrae
+- Minimum image quality for diagnostic purpose
+- No absolute contraindications (metal/implants handle with artifact reduction)
+
+### 4.2 Output Data Specifications
+
+**Primary segmentation output:**
+- 28-class segmentation map (same resolution as input)
+- Data type: uint8 (class indices) or float32 (probability)
+- Format: NIfTI or NRRD (preserves metadata)
+- Size: ~100 MB (same as input volume)
+
+**Vertebra labels output:**
+```json
+{
+  "version": "1.0",
+  "model": "3d_unet_baseline_v1",
+  "inference_timestamp": "2026-09-07T14:32:00Z",
+  "input_file": "patient_001_ct.nii.gz",
+  "preprocessing": {
+    "spacing": [1.0, 1.0, 1.0],
+    "orientation": "RAS",
+    "hounsfield_range": [-1000, 400]
+  },
+  "segmentation": {
+    "dice_background": 0.98,
+    "dice_mean": 0.92,
+    "dice_min": 0.88,
+    "inference_time_seconds": 8.3
+  },
+  "vertebrae": [
+    {
+      "label": "C1",
+      "center": [245, 128, 400],
+      "volume_mm3": 1243,
+      "segmentation_dice": 0.94,
+      "labeling_confidence": 0.99
+    },
+    ...
+  ],
+  "anomalies": [],
+  "qualitative_assessment": "High quality segmentation; confident labeling"
+}
+```
+
+**Planning output:**
+- Recommended surgical trajectories (stored as reference frame coordinates)
+- Instrument constraints (entry points, depths, angles)
+- Risk alerts (metal artifacts, close to neural structures)
+
+---
+
+## 5. Deployment Architecture
+
+### 5.1 Standalone Deployment (Research Phase)
+
+```
+┌──────────────────────────────────────────────────────────┐
+│  Research Workstation (Linux or macOS)                   │
+├──────────────────────────────────────────────────────────┤
+│                                                           │
+│  ┌──────────────────────────────────────────────┐        │
+│  │ Python Environment (Conda/venv)              │        │
+│  │ - Python 3.9+                                │        │
+│  │ - PyTorch 2.0 + CUDA 12.1                    │        │
+│  │ - MONAI 1.2                                  │        │
+│  │ - NumPy, SciPy, pandas, scikit-learn        │        │
+│  └──────────────────────────────────────────────┘        │
+│              ↓                                            │
+│  ┌──────────────────────────────────────────────┐        │
+│  │ Project 1 Codebase                           │        │
+│  │ - preprocessing/                             │        │
+│  │ - models/                                    │        │
+│  │ - inference/                                 │        │
+│  │ - evaluation/                                │        │
+│  │ - visualization/                             │        │
+│  └──────────────────────────────────────────────┘        │
+│              ↓                                            │
+│  ┌──────────────────────────────────────────────┐        │
+│  │ GPU Hardware (NVIDIA A100 or RTX 3090)       │        │
+│  │ - 40GB+ GPU memory for baseline model        │        │
+│  │ - 8+ CPU cores for parallel I/O              │        │
+│  └──────────────────────────────────────────────┘        │
+│              ↓                                            │
+│  ┌──────────────────────────────────────────────┐        │
+│  │ Storage                                       │        │
+│  │ - /data/datasets/ (VerSe 2020 = 50 GB)      │        │
+│  │ - /models/ (checkpoint storage = 2 GB)      │        │
+│  │ - /results/ (experiment results = 20 GB)    │        │
+│  └──────────────────────────────────────────────┘        │
+│                                                           │
+└──────────────────────────────────────────────────────────┘
+```
+
+### 5.2 Clinical Deployment (Integration Phase)
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│  Hospital OR Network                                        │
+├─────────────────────────────────────────────────────────────┤
+│                                                              │
+│  ┌──────────────────┐      ┌────────────────────────────┐  │
+│  │ Navigation       │      │ PACS / Imaging Server      │  │
+│  │ Console          │◀─────│ - DICOM storage            │  │
+│  │ (StealthStation, │      │ - Image retrieval (WADO)   │  │
+│  │  ExcelsiusGPS,   │      │ - Metadata management      │  │
+│  │  Brainlab, etc)  │      └────────────────────────────┘  │
+│  │                  │                                       │
+│  │ + Project 1 Seg. │◀─────┐                                │
+│  │   Module (C++ or │      │                                │
+│  │   Python via     │      │                                │
+│  │   REST API)      │      │                                │
+│  └──────────────────┘      │                                │
+│         ↑                   │                                │
+│         │                   │                                │
+│  ┌──────▼──────────┐        │                                │
+│  │ GPU Accelerator │        │                                │
+│  │ (local or       │        │  ┌────────────────────────┐  │
+│  │ remote)         │        │  │ REST API Server        │  │
+│  │                 │        └─▶│ (segmentation service) │  │
+│  │ - Inference     │           │                        │  │
+│  │   5-10 sec      │           │ Input: DICOM URL       │  │
+│  │ - Output JSON   │           │ Output: JSON labels    │  │
+│  │                 │           │ Timeout: 30 sec        │  │
+│  └─────────────────┘           └────────────────────────┘  │
+│                                                              │
+│  ┌──────────────────────────────────────────────────────┐  │
+│  │ OR Integration (Fail-safe)                            │  │
+│  │ - If segmentation service unavailable:               │  │
+│  │   ✓ Navigation system falls back to manual workflow   │  │
+│  │ - Segmentation confidence <70%:                       │  │
+│  │   ✓ Alert surgeon for manual verification            │  │
+│  │ - Segmentation completes in >15 sec:                 │  │
+│  │   ✓ Timeout, continue with manual planning           │  │
+│  └──────────────────────────────────────────────────────┘  │
+│                                                              │
+└─────────────────────────────────────────────────────────────┘
+```
+
+### 5.3 API Specification
+
+**Segmentation Service REST API:**
+
+```
+POST /segmentation/vertebra
+
+Headers:
+  Content-Type: application/json
+  Authorization: Bearer <token>
+
+Request Body:
+{
+  "dicom_url": "https://pacs.hospital.edu/wado?oid=1.2.3",
+  "mode": "planning",  # or "intraoperative"
+  "return_probability": false,  # return class labels vs probability
+  "confidence_threshold": 0.7
+}
+
+Response (200 OK):
+{
+  "status": "success",
+  "inference_time": 8.3,
+  "confidence": 0.94,
+  "vertebrae": [
+    {
+      "label": "C1",
+      "center": [x, y, z],
+      "dice": 0.94,
+      "segmentation_url": "result_segmentation.nii.gz"
+    },
+    ...
+  ],
+  "warnings": [],
+  "result_download_url": "https://..."
+}
+
+Response (400 Bad Request):
+{
+  "status": "error",
+  "error_code": "INVALID_DICOM",
+  "message": "DICOM URL returned 404"
+}
+
+Response (408 Timeout):
+{
+  "status": "error",
+  "error_code": "INFERENCE_TIMEOUT",
+  "message": "Segmentation inference exceeded 30 second timeout"
+}
+```
+
+**Fallback mechanism:**
+- If API unavailable or timeout: navigation system continues with manual workflow
+- Operator unaware of failure (transparent fallback)
+- All actions logged for audit trail
+
+---
+
+## 6. Performance & Scalability
+
+### 6.1 Computational Requirements
+
+**Baseline 3D U-Net model:**
+- Model parameters: ~45M
+- Model size: ~180 MB (fp32)
+- Training GPU memory: 24-32 GB (batch size 2, patch size 128×128×128)
+- Inference GPU memory: 8-12 GB
+- Inference time (per volume): 5-10 seconds
+
+**Optimized lightweight model (intraoperative):**
+- Model parameters: ~10M
+- Model size: ~40 MB
+- Inference time: <2 seconds
+- Inference GPU memory: 2-4 GB
+
+### 6.2 Throughput & Latency
+
+**Preoperative planning:**
+- Throughput: 1 segmentation per 8-10 seconds
+- Latency (user perspective): ~10 sec from import to output
+- Acceptable for planning workflow (asynchronous)
+
+**Intraoperative guidance:**
+- Throughput: Real-time updates during surgery
+- Latency requirement: <2 seconds for live adaptation
+- Lightweight model enables this requirement
+
+### 6.3 Scalability
+
+**Single-server deployment (research):**
+- Throughput: 10-20 segmentations per GPU per hour
+- Serves 1-2 operating rooms per day
+
+**Multi-GPU deployment (hospital):**
+- Scale to 2-4 GPUs for multiple ORs running simultaneously
+- Use queue system (RabbitMQ) for job distribution
+- Database for result caching
+
+**Cloud deployment (enterprise):**
+- Containerized (Docker) for cloud platforms
+- Kubernetes orchestration for elasticity
+- Auto-scaling based on queue depth
+
+---
+
+## 7. Validation & Quality Assurance
+
+### 7.1 Model Validation
+
+**Offline validation (research phase):**
+- Training set (70% of VerSe): Model training
+- Validation set (15% of VerSe): Hyperparameter tuning
+- Test set (15% of VerSe): Final performance reporting
+
+**Cross-dataset validation:**
+- Train on VerSe, evaluate on CTSpine1K
+- Measures generalization and robustness
+- Identifies domain shift
+
+**Pathological robustness validation:**
+- Subset evaluation by pathology type
+- Fractures, degeneration, scoliosis separate results
+- Identifies failure modes
+
+### 7.2 Clinical Validation
+
+**Physician review study:**
+- 10-20 segmentations reviewed by radiologist
+- Compare automated vs physician gold-standard
+- Measure inter-rater reliability (Dice ICC)
+- Identify systematic errors
+
+**Surgical outcome correlation:**
+- Track navigation accuracy with segmentation quality
+- Correlate segmentation errors with surgical complications
+- Measure true-positive rate of guidance vs manual landmarks
+
+### 7.3 Safety & Monitoring
+
+**Confidence scoring:**
+- Model outputs confidence per vertebra (0-1)
+- Flag low-confidence segmentations for surgeon review
+- Automatic alert if average confidence <0.70
+
+**Error detection:**
+- Anatomical constraints (C1-L5 in expected order)
+- Volume sanity checks (vertebra volume 800-2000 mm³)
+- Topology checks (no bridges between vertebrae)
+
+**Audit trail:**
+- Log all segmentations with timestamps
+- Store model version + inference parameters
+- Enable post-operative correlation with outcomes
+
+---
+
+## 8. Integration Timeline & Roadmap
+
+### Phase 1: Research Foundation (Weeks 1-2) [CURRENT]
+- ✅ Literature review + dataset selection
+- ✅ Model benchmarking
+- 🔄 Baseline implementation
+
+### Phase 2: Engineering Implementation (Weeks 3-4)
+- 🔄 CT preprocessing pipeline
+- 🔄 Baseline model training
+- 🔄 Inference + evaluation
+
+### Phase 3: Validation & Optimization (Weeks 5-6)
+- Offline validation on VerSe test set
+- Cross-dataset validation on CTSpine1K
+- Pathological robustness analysis
+- Model optimization for deployment
+
+### Phase 4: Clinical Integration (Weeks 7-10)
+- API development (REST endpoint)
+- Navigation system integration (system-specific)
+- Physician review study
+- Safety & monitoring infrastructure
+
+### Phase 5: Clinical Pilot (Weeks 11-16)
+- Pilot deployment in 1-2 OR suites
+- Prospective surgical outcome tracking
+- Performance monitoring & refinement
+- Surgeon feedback collection
+
+---
+
+## 9. Risk Analysis & Mitigation
+
+| Risk | Severity | Likelihood | Mitigation |
+|------|----------|-----------|-----------|
+| Segmentation fails on pathological anatomy | High | Medium | Train pathology-specific models; confidence thresholds |
+| Cross-dataset performance drop | Medium | High | Early cross-dataset validation; domain adaptation |
+| Integration complexity with navigation systems | High | High | Modular REST API approach; fail-safe fallback |
+| Regulatory/compliance requirements (FDA) | High | Medium | Early engagement with regulatory; risk analysis |
+| GPU availability in clinical setting | Medium | Medium | Lightweight model option; cloud fallback |
+| Surgeon adoption resistance | Medium | High | Design for transparent workflow integration; training |
+
+---
+
+## 10. Success Metrics
+
+**Technical metrics:**
+- Segmentation Dice >0.90 on public test sets
+- Labeling accuracy >94% on all vertebra levels
+- Inference time <10 seconds (preoperative)
+- Cross-dataset Dice >0.85 (generalization)
+
+**Clinical metrics:**
+- Physician confidence in automated segmentation: >85%
+- Segment of segmentation-assisted planning: <50 minutes (vs 90 min manual)
+- Navigation accuracy with segmentation: <2 mm TRE
+- Complication rate: ≤2% (vs 5% baseline without guidance)
+
+**Adoption metrics:**
+- Surgeon adoption rate: >60% of cases
+- Manual correction rate: <20% of segmentations
+- System uptime: >99.5%
+
+---
+
+## Conclusion
+
+Project 1 (vertebral segmentation) integrates into the surgical navigation workflow at three critical points:
+
+1. **Planning:** Automated segmentation/labeling reduces planning time
+2. **Guidance:** Segmentation enables anatomy-aware instrument calibration
+3. **Adaptation:** Intraoperative segmentation enables dynamic plan refinement (emerging capability)
+
+This architecture enables progressive integration from research to clinical deployment while maintaining safety through confidence scoring, anatomical constraints, and fail-safe fallback mechanisms.
