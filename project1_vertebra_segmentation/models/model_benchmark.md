@@ -1,7 +1,7 @@
 # Model Architecture Benchmark: Vertebral Segmentation
 
-**Version:** 1.0  
-**Date:** September 7, 2026  
+**Version:** 1.0
+**Date:** September 7, 2026
 **Scope:** Comprehensive comparison of 20+ segmentation architectures for CT vertebra segmentation
 
 ---
@@ -26,23 +26,23 @@ Current state-of-the-art for CT vertebral segmentation achieves Dice 0.93-0.945 
 
 **Architecture:**
 ```
-Input 3D patch (128³ or 64³)
-    ↓
+Input 3D patch (128? or 64?)
+    ?
 Encoder (downsampling)
-  Level 1: Conv(16) → pool
-  Level 2: Conv(32) → pool
-  Level 3: Conv(64) → pool [bottleneck]
-    ↓
+  Level 1: Conv(16) ? pool
+  Level 2: Conv(32) ? pool
+  Level 3: Conv(64) ? pool [bottleneck]
+    ?
 Decoder (upsampling)
-  Level 3: Upsample → concat encoder_L3 → Conv(64)
-  Level 2: Upsample → concat encoder_L2 → Conv(32)
-  Level 1: Upsample → concat encoder_L1 → Conv(16)
-    ↓
+  Level 3: Upsample ? concat encoder_L3 ? Conv(64)
+  Level 2: Upsample ? concat encoder_L2 ? Conv(32)
+  Level 1: Upsample ? concat encoder_L1 ? Conv(16)
+    ?
 Output: Per-voxel class logits (26 classes for VerSe)
 ```
 
 **Hyperparameter ranges:**
-- Patch size: 64³ to 192³ (GPU memory dependent)
+- Patch size: 64? to 192? (GPU memory dependent)
 - Channels: 16-32 base
 - Depth: 3-5 pyramid levels
 - Dropout: 0.1-0.5 (for regularization)
@@ -61,18 +61,18 @@ Output: Per-voxel class logits (26 classes for VerSe)
 - Memory: 4-6GB GPU RAM
 
 **Strengths:**
-- ✓ Mature, well-understood architecture
-- ✓ Many implementations available (MONAI, TensorFlow, PyTorch)
-- ✓ Good interpretability (skip connections clearly help)
-- ✓ Relatively fast inference
-- ✓ Moderate GPU requirements
-- ✓ Easy to debug and modify
+- [OK] Mature, well-understood architecture
+- [OK] Many implementations available (MONAI, TensorFlow, PyTorch)
+- [OK] Good interpretability (skip connections clearly help)
+- [OK] Relatively fast inference
+- [OK] Moderate GPU requirements
+- [OK] Easy to debug and modify
 
 **Limitations:**
-- ✗ Fixed architecture (requires manual tuning for new datasets)
-- ✗ Limited long-range context (receptive field bounded by depth)
-- ✗ May underutilize large volumes
-- ✗ Naive patch strategy can be wasteful
+- [OK] Fixed architecture (requires manual tuning for new datasets)
+- [OK] Limited long-range context (receptive field bounded by depth)
+- [OK] May underutilize large volumes
+- [OK] Naive patch strategy can be wasteful
 
 **When to use:**
 - Prototype and baseline development
@@ -107,7 +107,7 @@ Output: Per-voxel class logits (26 classes for VerSe)
 2. **Channel counts:** Scales dynamically with depth
 3. **Depth:** Computed from desired receptive field
 4. **Batch size:** Limited by GPU memory
-5. **Training schedule:** Based on dataset size (more data → more epochs)
+5. **Training schedule:** Based on dataset size (more data ? more epochs)
 6. **Preprocessing:** Automatic HU windowing, resampling, cropping
 7. **Augmentation:** Medical imaging-specific (spatial + intensity)
 
@@ -134,20 +134,20 @@ Output: Per-voxel class logits (26 classes for VerSe)
 - Storage: ~2-5GB per trained model (5 ensemble members)
 
 **Advantages:**
-- ✓ Zero hyperparameter tuning (fully automatic)
-- ✓ Reproducible (same input → same architecture → same performance)
-- ✓ Generalizes across domains (works on diverse medical imaging tasks)
-- ✓ Efficient preprocessing (reduces training time)
-- ✓ Ensemble predictions (more robust than single model)
-- ✓ De facto standard (50+ published applications)
-- ✓ Strong community adoption
+- [OK] Zero hyperparameter tuning (fully automatic)
+- [OK] Reproducible (same input ? same architecture ? same performance)
+- [OK] Generalizes across domains (works on diverse medical imaging tasks)
+- [OK] Efficient preprocessing (reduces training time)
+- [OK] Ensemble predictions (more robust than single model)
+- [OK] De facto standard (50+ published applications)
+- [OK] Strong community adoption
 
 **Limitations:**
-- ✗ Less interpretable (auto-configuration obscures design choices)
-- ✗ Pre-configured decisions may be suboptimal for specific anatomy
-- ✗ Requires nnU-Net software (not plug-and-play for custom modifications)
-- ✗ Harder to customize for research variations
-- ✗ 5-fold cross-validation takes time
+- [OK] Less interpretable (auto-configuration obscures design choices)
+- [OK] Pre-configured decisions may be suboptimal for specific anatomy
+- [OK] Requires nnU-Net software (not plug-and-play for custom modifications)
+- [OK] Harder to customize for research variations
+- [OK] 5-fold cross-validation takes time
 
 **Installation & usage:**
 ```bash
@@ -173,22 +173,22 @@ nnUNet_predict -i input_folder -o output_folder -t Task01_VerSe -m 3d_fullres
 
 **Architecture:**
 ```
-Input volume (e.g., 96³)
-    ↓
+Input volume (e.g., 96?)
+    ?
 Patch embedding
-  - Divide into 16³ patches
+  - Divide into 16? patches
   - Project each patch to embedding dimension (e.g., 768)
-    ↓
+    ?
 Transformer encoder (12-24 layers)
   - Multi-head self-attention (8-12 heads)
   - Feed-forward networks
   - Positional embeddings (learned or fixed)
-    ↓
+    ?
 Hybrid decoder (CNN + transformer features)
   - Upsample embeddings
   - Concatenate with skip connections from transformer layers
   - CNN convolutions for refinement
-    ↓
+    ?
 Output: Per-voxel class predictions
 ```
 
@@ -196,7 +196,7 @@ Output: Per-voxel class predictions
 - **Self-attention:** Each voxel can attend to ALL other voxels in volume
 - **Long-range context:** Captures global anatomical structure
 - **Interpretability:** Attention weights show which regions influenced predictions
-- **Computational cost:** O(n²) complexity for self-attention (n = number of patches)
+- **Computational cost:** O(n?) complexity for self-attention (n = number of patches)
 
 **Performance on VerSe:**
 - Dice: 0.92-0.94 (competitive with nnU-Net)
@@ -208,18 +208,18 @@ Output: Per-voxel class predictions
 - Inference time: 60-90 seconds per volume (2-3x slower than 3D U-Net)
 
 **Advantages:**
-- ✓ Long-range context via self-attention
-- ✓ Highly interpretable (attention weights reveal reasoning)
-- ✓ Competitive SOTA performance
-- ✓ Multiple implementations available (MONAI, custom)
-- ✓ Transferable from ImageNet pretraining
+- [OK] Long-range context via self-attention
+- [OK] Highly interpretable (attention weights reveal reasoning)
+- [OK] Competitive SOTA performance
+- [OK] Multiple implementations available (MONAI, custom)
+- [OK] Transferable from ImageNet pretraining
 
 **Limitations:**
-- ✗ Higher GPU memory requirements
-- ✗ Slower training and inference than 3D U-Net
-- ✗ O(n²) complexity limits scalability
-- ✗ May require larger dataset for optimal performance
-- ✗ Attention can be noisy (requires careful analysis)
+- [OK] Higher GPU memory requirements
+- [OK] Slower training and inference than 3D U-Net
+- [OK] O(n?) complexity limits scalability
+- [OK] May require larger dataset for optimal performance
+- [OK] Attention can be noisy (requires careful analysis)
 
 **When to use:**
 - When interpretability is important (research/publication)
@@ -240,21 +240,21 @@ Output: Per-voxel class predictions
 
 **Architecture:**
 ```
-Input volume (e.g., 96³)
-    ↓
+Input volume (e.g., 96?)
+    ?
 Patch embedding + windowing
-    ↓
+    ?
 Swin transformer encoder (hierarchical windows)
-  - Local window attention (7³ typical window)
+  - Local window attention (7? typical window)
   - Shifted windows between layers (cross-window communication)
   - Hierarchical pyramid levels
-    ↓
+    ?
 Hybrid decoder + skip connections
-    ↓
+    ?
 Output: Per-voxel predictions
 ```
 
-**Key property:** Window-based attention reduces complexity from O(n²) to O(n)
+**Key property:** Window-based attention reduces complexity from O(n?) to O(n)
 
 **Performance:**
 - Dice: 0.92-0.94 (similar accuracy to UNETR)
@@ -262,17 +262,17 @@ Output: Per-voxel predictions
 - Memory: 8-12GB (similar to UNETR)
 
 **Advantages:**
-- ✓ Efficient attention mechanism (linear complexity)
-- ✓ Maintains SOTA performance
-- ✓ Better memory efficiency than full attention
-- ✓ Hierarchical structure captures multi-scale features
-- ✓ MONAI-integrated (good library support)
-- ✓ Faster than full UNETR for similar accuracy
+- [OK] Efficient attention mechanism (linear complexity)
+- [OK] Maintains SOTA performance
+- [OK] Better memory efficiency than full attention
+- [OK] Hierarchical structure captures multi-scale features
+- [OK] MONAI-integrated (good library support)
+- [OK] Faster than full UNETR for similar accuracy
 
 **Limitations:**
-- ✗ Still slower than 3D U-Net
-- ✗ Slightly more complex than UNETR
-- ✗ Window-based attention may miss very long-range patterns
+- [OK] Still slower than 3D U-Net
+- [OK] Slightly more complex than UNETR
+- [OK] Window-based attention may miss very long-range patterns
 
 **Recommendation:** **Preferred transformer variant** if interpretability + efficiency both important. Good middle ground between 3D U-Net and full UNETR.
 
@@ -306,15 +306,15 @@ Step 4: Expected improvement: +1-2% Dice over VerSe-only training
 ```
 
 **Advantages:**
-- ✓ Largest available pretraining dataset (1200 scans)
-- ✓ Multi-organ context may improve robustness
-- ✓ Standardized 1.0mm spacing
-- ✓ Open-source and accessible
+- [OK] Largest available pretraining dataset (1200 scans)
+- [OK] Multi-organ context may improve robustness
+- [OK] Standardized 1.0mm spacing
+- [OK] Open-source and accessible
 
 **Limitations:**
-- ✗ Organ-level not vertebra-level (requires adaptation)
-- ✗ Large storage requirements (~500GB for full dataset)
-- ✗ May introduce bias from multi-organ training
+- [OK] Organ-level not vertebra-level (requires adaptation)
+- [OK] Large storage requirements (~500GB for full dataset)
+- [OK] May introduce bias from multi-organ training
 
 **Recommendation:** Use **TotalSegmentator for transfer learning** (Week 4-5). Download pretrained weights, fine-tune on VerSe. Measure improvement vs direct VerSe training.
 
@@ -375,50 +375,50 @@ Step 4: Expected improvement: +1-2% Dice over VerSe-only training
 **MONAI (Medical Open Network for AI):** PyTorch-based medical imaging framework
 
 **3D CT Support:**
-- ✓ 3D U-Net implementation
-- ✓ UNETR / Swin UNETR implementation
-- ✓ 3D data transforms (rotations, deformations, etc.)
-- ✓ 3D preprocessing utilities
-- ✓ Sliding-window inference for large volumes
-- ✓ Medical imaging metrics (Dice, Hausdorff, surface distance)
+- [OK] 3D U-Net implementation
+- [OK] UNETR / Swin UNETR implementation
+- [OK] 3D data transforms (rotations, deformations, etc.)
+- [OK] 3D preprocessing utilities
+- [OK] Sliding-window inference for large volumes
+- [OK] Medical imaging metrics (Dice, Hausdorff, surface distance)
 
 **Preprocessing capabilities:**
-- ✓ DICOM loading (pydicom integration)
-- ✓ Orientation normalization
-- ✓ Voxel spacing resampling
-- ✓ Intensity normalization
-- ✓ ROI cropping
-- ✓ Padding/cropping to fixed size
+- [OK] DICOM loading (pydicom integration)
+- [OK] Orientation normalization
+- [OK] Voxel spacing resampling
+- [OK] Intensity normalization
+- [OK] ROI cropping
+- [OK] Padding/cropping to fixed size
 
 **Augmentation:**
-- ✓ 3D spatial transforms (flip, rotate, elastic deformation)
-- ✓ Intensity transforms (Gaussian noise, gamma correction, etc.)
-- ✓ Composable pipeline (chain transforms easily)
+- [OK] 3D spatial transforms (flip, rotate, elastic deformation)
+- [OK] Intensity transforms (Gaussian noise, gamma correction, etc.)
+- [OK] Composable pipeline (chain transforms easily)
 
 **Loss functions:**
-- ✓ Dice loss
-- ✓ Cross-entropy
-- ✓ Focal loss
-- ✓ Custom combinations
+- [OK] Dice loss
+- [OK] Cross-entropy
+- [OK] Focal loss
+- [OK] Custom combinations
 
 **Evaluation:**
-- ✓ Dice computation
-- ✓ Hausdorff distance
-- ✓ Surface distance
-- ✓ Per-class metrics
+- [OK] Dice computation
+- [OK] Hausdorff distance
+- [OK] Surface distance
+- [OK] Per-class metrics
 
 **Advantages:**
-- ✓ Comprehensive medical imaging support
-- ✓ Good documentation
-- ✓ Active development
-- ✓ Easy reproducibility
-- ✓ MONAI-integrated models (UNETR, Swin UNETR)
-- ✓ Plugin architecture (extend easily)
+- [OK] Comprehensive medical imaging support
+- [OK] Good documentation
+- [OK] Active development
+- [OK] Easy reproducibility
+- [OK] MONAI-integrated models (UNETR, Swin UNETR)
+- [OK] Plugin architecture (extend easily)
 
 **Disadvantages:**
-- ✗ Dependency layer (vs raw PyTorch)
-- ✗ Slight performance overhead (negligible)
-- ✗ Some features less mature than domain-specific tools
+- [OK] Dependency layer (vs raw PyTorch)
+- [OK] Slight performance overhead (negligible)
+- [OK] Some features less mature than domain-specific tools
 
 **Verdict:** **Recommended framework for development.** Enables reproducible, well-documented medical imaging workflows.
 
@@ -429,20 +429,20 @@ Step 4: Expected improvement: +1-2% Dice over VerSe-only training
 **nnU-Net:** Specialized self-configuring segmentation software
 
 **3D Support:**
-- ✓ Full 3D volumetric support
-- ✓ Automatic preprocessing
-- ✓ Automatic architecture configuration
-- ✓ 5-fold cross-validation ensemble
+- [OK] Full 3D volumetric support
+- [OK] Automatic preprocessing
+- [OK] Automatic architecture configuration
+- [OK] 5-fold cross-validation ensemble
 
 **Strengths:**
-- ✓ Zero hyperparameter tuning
-- ✓ Reproducible across runs
-- ✓ Well-tested on 50+ medical imaging tasks
+- [OK] Zero hyperparameter tuning
+- [OK] Reproducible across runs
+- [OK] Well-tested on 50+ medical imaging tasks
 
 **Weaknesses:**
-- ✗ Less flexible than MONAI (hard to customize)
-- ✗ Requires specific software setup
-- ✗ Less suitable for research variations
+- [OK] Less flexible than MONAI (hard to customize)
+- [OK] Requires specific software setup
+- [OK] Less suitable for research variations
 
 **Verdict:** **Excellent reference standard.** Use for benchmarking project baseline against published SOTA. Not recommended as primary development framework unless minimal customization needed.
 
@@ -494,10 +494,10 @@ Step 4: Expected improvement: +1-2% Dice over VerSe-only training
 **Comparison approach:**
 ```
 nnU-Net Dice (0.93-0.94) - 3D U-Net Dice (0.90-0.92)
-= Performance gap ≈ 1-4%
+= Performance gap ? 1-4%
 
 If gap > 5%: indicates suboptimal 3D U-Net implementation
-If gap ≈ 1-4%: indicates solid 3D U-Net baseline
+If gap ? 1-4%: indicates solid 3D U-Net baseline
 ```
 
 **Deliverables:**
@@ -622,22 +622,22 @@ If gap ≈ 1-4%: indicates solid 3D U-Net baseline
 
 **Recommended architecture selection:**
 1. **Primary:** 3D U-Net (baseline establishment; weeks 1-3)
-2. **Benchmark:** nnU-Net (reference standard; weeks 3-4)  
+2. **Benchmark:** nnU-Net (reference standard; weeks 3-4)
 3. **Optional:** Swin UNETR (interpretable SOTA; weeks 4-6)
 
 This three-phase approach enables:
-- ✓ Rapid baseline development
-- ✓ Validation against SOTA
-- ✓ Publication-ready results
-- ✓ Flexibility for research improvements
-- ✓ Clear progression from simple to advanced
+- [OK] Rapid baseline development
+- [OK] Validation against SOTA
+- [OK] Publication-ready results
+- [OK] Flexibility for research improvements
+- [OK] Clear progression from simple to advanced
 
 Expected progression:
 ```
 Week 1-2: 3D U-Net baseline (Dice ~0.90)
-    ↓
+    ?
 Week 3: nnU-Net benchmark (Dice ~0.93)
-    ↓
+    ?
 Week 4-6: Swin UNETR or ensemble (Dice ~0.93-0.94)
 ```
 
@@ -645,6 +645,6 @@ Week 4-6: Swin UNETR or ensemble (Dice ~0.93-0.94)
 
 ---
 
-**Document prepared:** September 7, 2026  
-**Status:** Architecture benchmark complete - ready for implementation  
+**Document prepared:** September 7, 2026
+**Status:** Architecture benchmark complete - ready for implementation
 **Next step:** Development environment setup + Phase 1 training begins

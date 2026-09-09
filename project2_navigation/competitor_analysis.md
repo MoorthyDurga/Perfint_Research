@@ -1,7 +1,7 @@
 # Surgical Navigation Competitive Analysis
 
-**Version:** 1.0  
-**Date:** September 7, 2026  
+**Version:** 1.0
+**Date:** September 7, 2026
 **Scope:** Technical comparison of 5 major spine/surgical navigation systems
 
 ---
@@ -76,22 +76,22 @@ Preoperative
   1. Acquire CT spine
   2. Load in StealthStation
   3. Segment spine, plan trajectory
-  
+
 Patient positioning
   4. Position patient on surgical table
   5. Mount reference frame to patient (typically pelvis)
   6. Rigidly attach reference to patient anatomy
-  
+
 Registration
   7. Register CT to patient (point-based or surface-based)
   8. Verify registration accuracy
   9. Calibrate instruments
-  
+
 Intraoperative
   10. Real-time tracking of surgical instruments
   11. Guidance overlay on display
   12. Optional fluoro verification during procedure
-  
+
 Postoperative
   13. Disconnect reference frame
   14. Verify instrumentation with fluoro/CT
@@ -129,16 +129,16 @@ Postoperative
 ### 1.8 Competitive Position
 
 **Advantages:**
-- ✓ Established; thousands in use
-- ✓ Mature, stable software
-- ✓ Good accuracy (1-2mm)
-- ✓ Multi-specialty capability
+- [OK] Established; thousands in use
+- [OK] Mature, stable software
+- [OK] Good accuracy (1-2mm)
+- [OK] Multi-specialty capability
 
 **Disadvantages:**
-- ✗ Neurosurgery-focused (not spine-optimized)
-- ✗ No integrated robotics for spine
-- ✗ Separate fluoroscopy system
-- ✗ Reference frame setup complex
+- [OK] Neurosurgery-focused (not spine-optimized)
+- [OK] No integrated robotics for spine
+- [OK] Separate fluoroscopy system
+- [OK] Reference frame setup complex
 
 **Assessment:** Good general-purpose navigation; not optimal for spine-specific workflows.
 
@@ -194,23 +194,23 @@ Preoperative
   3. Segment vertebrae (automatic + manual refinement)
   4. Plan surgical trajectory, angles, depth
   5. Robotic parameters (drill angle, insertion angle)
-  
+
 Patient positioning
   6. Position patient on surgical table
   7. Mount surface reference markers
   8. No percutaneous pins required
-  
+
 Registration
   9. Register CT to patient (surface palpation or point-based)
   10. Verify registration
   11. Activate robotic arm
-  
+
 Intraoperative
   12. Robotic arm positions drill guide
   13. Drill/tap under robotic control
   14. Real-time tracking confirms position
   15. Surgeon inserts screw following guidance
-  
+
 Postoperative
   16. Remove surface markers
   17. Verify with fluoro or CT
@@ -244,17 +244,17 @@ Postoperative
 ### 2.7 Competitive Position
 
 **Advantages:**
-- ✓ Spine-optimized
-- ✓ Integrated robotics
-- ✓ No intraop radiation (vision-free)
-- ✓ Newer technology; active development
-- ✓ Non-invasive reference frame
+- [OK] Spine-optimized
+- [OK] Integrated robotics
+- [OK] No intraop radiation (vision-free)
+- [OK] Newer technology; active development
+- [OK] Non-invasive reference frame
 
 **Disadvantages:**
-- ✗ Newer system (less installed base than StealthStation)
-- ✗ Limited multi-organ use (spine-only)
-- ✗ May require more preoperative planning time
-- ✗ Higher capital cost (robotic platform)
+- [OK] Newer system (less installed base than StealthStation)
+- [OK] Limited multi-organ use (spine-only)
+- [OK] May require more preoperative planning time
+- [OK] Higher capital cost (robotic platform)
 
 **Assessment:** Best-in-class for spine-specific robotic navigation. Emerging market leader.
 
@@ -304,25 +304,25 @@ Postoperative
 
 ```
 Preoperative
-  1. Acquire CT ± fluoro scout
+  1. Acquire CT ? fluoro scout
   2. Load in Stryker planning station
   3. Segment spine, plan trajectories
-  
+
 Patient positioning
   4. Position patient; mount reference array
   5. Mount fluoroscopy arm (if using integrated fluoro)
-  
+
 Registration
   6. Register CT to patient (point-based or surface)
   7. Validate with fluoroscopy overlay
   8. Calibrate instruments
-  
+
 Intraoperative
   9. Fluoroscopy provides real-time guidance
   10. Optical tracking updates instrument position
   11. Hybrid tracking if needed
   12. Drill/insert under navigation guidance
-  
+
 Intraoperative verification
   13. Cone-beam CT (optional) for 3D verification
   14. Final fluoroscopy confirmation
@@ -346,17 +346,17 @@ Intraoperative verification
 ### 3.7 Competitive Position
 
 **Advantages:**
-- ✓ Mature, well-established
-- ✓ Excellent fluoro integration
-- ✓ Hybrid tracking (robust to OR disruptions)
-- ✓ Significant installed base
-- ✓ Good accuracy with intraop verification
+- [OK] Mature, well-established
+- [OK] Excellent fluoro integration
+- [OK] Hybrid tracking (robust to OR disruptions)
+- [OK] Significant installed base
+- [OK] Good accuracy with intraop verification
 
 **Disadvantages:**
-- ✗ No integrated spine robotics (Mako is orthopedic)
-- ✗ Fluoro dependency (radiation for each verification)
-- ✗ Rosa integration newer (less established in spine)
-- ✗ Older technology compared to ExcelsiusGPS
+- [OK] No integrated spine robotics (Mako is orthopedic)
+- [OK] Fluoro dependency (radiation for each verification)
+- [OK] Rosa integration newer (less established in spine)
+- [OK] Older technology compared to ExcelsiusGPS
 
 **Assessment:** Robust, mature navigation with excellent fluoro integration. Not robotics-focused.
 
@@ -411,22 +411,22 @@ Preoperative
   2. Brainlab software fuses images
   3. Segment anatomy (automatic + manual)
   4. Plan trajectory/approach
-  
+
 Patient positioning
   5. Position patient
   6. Mount reference frame (invasive or non-invasive option)
-  
+
 Registration
   7. Register to patient (multi-modal; robust)
   8. Verify with fluoro or iCT
   9. Instrument calibration
-  
+
 Intraoperative
   10. Real-time tracking
   11. Multi-modal guidance (CT/fluoro overlays)
   12. Dynamic image updates (if iCT/iMRI used)
   13. Instrument tracking with haptic feedback
-  
+
 Intraoperative verification
   14. iCT (cone-beam CT) for 3D confirmation
   15. Real-time image-guided approach
@@ -455,18 +455,18 @@ Intraoperative verification
 ### 4.7 Competitive Position
 
 **Advantages:**
-- ✓ Mature, robust platform
-- ✓ Best-in-class multi-modal support
-- ✓ Real-time imaging (iCT)
-- ✓ Modular (can add robotics)
-- ✓ Excellent tracking robustness
-- ✓ Strong European presence
+- [OK] Mature, robust platform
+- [OK] Best-in-class multi-modal support
+- [OK] Real-time imaging (iCT)
+- [OK] Modular (can add robotics)
+- [OK] Excellent tracking robustness
+- [OK] Strong European presence
 
 **Disadvantages:**
-- ✗ Complex setup (many options/configurations)
-- ✗ Higher cost due to modularity
-- ✗ Cirrus robotics less spine-optimized than ExcelsiusGPS
-- ✗ Requires training on multi-modal fusion
+- [OK] Complex setup (many options/configurations)
+- [OK] Higher cost due to modularity
+- [OK] Cirrus robotics less spine-optimized than ExcelsiusGPS
+- [OK] Requires training on multi-modal fusion
 
 **Assessment:** Most flexible, feature-rich platform. Best for research/academic settings.
 
@@ -517,24 +517,24 @@ Preoperative
   1. May or may not require preop imaging
   2. Markerless system can work without preop CT
   3. Plan trajectory if needed
-  
+
 Patient positioning
   4. Position patient
   5. NO reference frame required
   6. Surgical bed may have positioning guides
-  
+
 Registration
   7. Acquire intraop 3D imaging
   8. Automatic registration to spine anatomy
   9. Real-time registration (no manual points needed)
   10. Registration verification via visual overlay
-  
+
 Intraoperative
   11. Real-time 3D imaging of surgical site
   12. Real-time guidance overlay
   13. Surgeon views live anatomy + plan overlay
   14. No physical markers to occlude view
-  
+
 Real-time verification
   15. Continuous intraop imaging
   16. Real-time tracking confirms instrument position
@@ -552,20 +552,20 @@ Real-time verification
 ### 5.6 Competitive Position
 
 **Advantages:**
-- ✓ Fastest setup (no reference frame)
-- ✓ Real-time intraop imaging (best verification)
-- ✓ Markerless (simpler workflow)
-- ✓ Radiation-alternative option
-- ✓ Deep learning-based (modern approach)
-- ✓ Emerging market opportunity
+- [OK] Fastest setup (no reference frame)
+- [OK] Real-time intraop imaging (best verification)
+- [OK] Markerless (simpler workflow)
+- [OK] Radiation-alternative option
+- [OK] Deep learning-based (modern approach)
+- [OK] Emerging market opportunity
 
 **Disadvantages:**
-- ✗ Very new system (limited installed base)
-- ✗ High equipment cost (specialized imaging)
-- ✗ Regulatory pathway still evolving (FDA pending)
-- ✗ Limited published clinical data
-- ✗ Requires closed OR (OR-specific imaging equipment)
-- ✗ Not yet widely adopted
+- [OK] Very new system (limited installed base)
+- [OK] High equipment cost (specialized imaging)
+- [OK] Regulatory pathway still evolving (FDA pending)
+- [OK] Limited published clinical data
+- [OK] Requires closed OR (OR-specific imaging equipment)
+- [OK] Not yet widely adopted
 
 **Assessment:** Most innovative platform. Best for forward-thinking institutions.
 
@@ -708,6 +708,6 @@ Real-time verification
 
 ---
 
-**Document prepared:** September 7, 2026  
-**Status:** Comprehensive competitor analysis complete  
+**Document prepared:** September 7, 2026
+**Status:** Comprehensive competitor analysis complete
 **Next step:** Navigation workflow mapping + instrument taxonomy

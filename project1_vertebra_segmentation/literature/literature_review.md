@@ -1,7 +1,7 @@
 # Literature Review: CT-Based Vertebral Segmentation and Anatomical Labeling
 
-**Version:** 1.0  
-**Date:** September 7, 2026  
+**Version:** 1.0
+**Date:** September 7, 2026
 **Scope:** Comprehensive analysis of methods, datasets, architectures, and clinical applications
 
 ---
@@ -40,11 +40,11 @@ The vertebral segmentation/labeling pipeline involves three interconnected but d
 **Objective:** Identify which voxels in a CT volume belong to any vertebra (binary segmentation) or which vertebra each voxel belongs to (multi-class segmentation).
 
 **Challenges:**
-- Adjacent vertebrae contact → boundary confusion
+- Adjacent vertebrae contact ? boundary confusion
 - Cortical vs cancellous bone intensity differences
-- Variable CT protocols → intensity variability
-- Pathological changes → appearance variation
-- Metal artifacts → signal corruption
+- Variable CT protocols ? intensity variability
+- Pathological changes ? appearance variation
+- Metal artifacts ? signal corruption
 
 **Typical approach:** Multi-class segmentation where each vertebra class occupies distinct voxel regions.
 
@@ -63,7 +63,7 @@ The vertebral segmentation/labeling pipeline involves three interconnected but d
 - Sacral: S1 (sometimes)
 
 **Why it's distinct:** Automated numbering requires:
-- Understanding spine topology (cervical → thoracic → lumbar progression)
+- Understanding spine topology (cervical ? thoracic ? lumbar progression)
 - Handling anatomical variations (transitional vertebrae, missing vertebrae)
 - Detecting superior-to-inferior ordering
 - Managing partial field-of-view imaging
@@ -138,7 +138,7 @@ The vertebral segmentation/labeling pipeline involves three interconnected but d
 - Ignores inter-slice continuity
 - Loses 3D anatomical constraints
 - Difficult to enforce connectivity between adjacent slices
-- Vertebral bodies span multiple slices → suboptimal for 3D structures
+- Vertebral bodies span multiple slices ? suboptimal for 3D structures
 
 **Modern variants:** Attention mechanisms (Oktay et al., 2018) improve precision but maintain 2D limitations.
 
@@ -146,9 +146,9 @@ The vertebral segmentation/labeling pipeline involves three interconnected but d
 
 ### 2.3 3D Volumetric CNNs (2016-Present)
 
-**Representative work:** 
+**Representative work:**
 - V-Net (Milletari et al., 2016)
-- 3D U-Net (Çiçek et al., 2016)
+- 3D U-Net (?i?ek et al., 2016)
 - nnU-Net (Isensee et al., 2019)
 
 **Characteristics:**
@@ -216,7 +216,7 @@ The vertebral segmentation/labeling pipeline involves three interconnected but d
 
 **Algorithm:**
 1. Segment vertebrae (all classes together or per-vertebra)
-2. Extract connected components → individual vertebral instances
+2. Extract connected components ? individual vertebral instances
 3. Compute centroid coordinates for each instance
 4. Sort by z-coordinate (superior-to-inferior)
 5. Assign anatomical labels based on position
@@ -274,7 +274,7 @@ The vertebral segmentation/labeling pipeline involves three interconnected but d
 
 **Current usage:** VerSe dataset provides per-vertebra labels; many works use this approach.
 
-**Performance:** Löffler et al. (2020) - Multi-class VerSe segmentation achieves Dice 0.88-0.94 per-vertebra.
+**Performance:** L?ffler et al. (2020) - Multi-class VerSe segmentation achieves Dice 0.88-0.94 per-vertebra.
 
 ### 3.4 Multi-Task Learning
 
@@ -285,14 +285,14 @@ The vertebral segmentation/labeling pipeline involves three interconnected but d
 **Architecture:**
 ```
 Input CT
-    ↓
+    ?
 Shared encoder (captures features)
-    ↓
-    ├→ Segmentation decoder → vertebra masks
-    ├→ Labeling decoder → per-vertebra classification
-    └→ Landmark decoder → centroid coordinates
-    ↓
-Aggregate outputs → final labeled segmentation
+    ?
+    ?? Segmentation decoder ? vertebra masks
+    ?? Labeling decoder ? per-vertebra classification
+    ?? Landmark decoder ? centroid coordinates
+    ?
+Aggregate outputs ? final labeled segmentation
 ```
 
 **Advantages:**
@@ -454,12 +454,12 @@ Aggregate outputs → final labeled segmentation
 
 | Dataset | Volumes | Spine Coverage | Per-Vertebra Labels | Public Access | Pathology | Notes |
 |---------|---------|---------|---------|---------|---------|---------|
-| VerSe 2019 | 160 | C1-L5 (mostly) | Yes (26 classes) | ✓ Yes | ✓ Included | Primary benchmark |
-| VerSe 2020 | 580 total | C1-L5 (mostly) | Yes (26 classes) | ✓ Yes | ✓ Included | Larger VerSe |
-| CTSpine1K | ~1000 | C1-L5 (mostly) | No (binary spine) | ✓ Yes | ✓ Included | Large, coarse labels |
-| SPIDER | 200-400 | C1-L5 (mostly) | Varies | ✓ Yes | ✓ Included | Smaller, clinical focus |
-| TotalSegmentator | ~1200 | C1-L5 (mostly) | No (organ-level) | ✓ Yes | ✓ Included | Multi-organ context |
-| Other (TCIA, etc.) | Variable | Variable | Typically no | ✓ Mostly | Varies | Secondary sources |
+| VerSe 2019 | 160 | C1-L5 (mostly) | Yes (26 classes) | ? Yes | ? Included | Primary benchmark |
+| VerSe 2020 | 580 total | C1-L5 (mostly) | Yes (26 classes) | ? Yes | ? Included | Larger VerSe |
+| CTSpine1K | ~1000 | C1-L5 (mostly) | No (binary spine) | ? Yes | ? Included | Large, coarse labels |
+| SPIDER | 200-400 | C1-L5 (mostly) | Varies | ? Yes | ? Included | Smaller, clinical focus |
+| TotalSegmentator | ~1200 | C1-L5 (mostly) | No (organ-level) | ? Yes | ? Included | Multi-organ context |
+| Other (TCIA, etc.) | Variable | Variable | Typically no | ? Mostly | Varies | Secondary sources |
 
 **Recommendation:**
 - **Primary dataset:** VerSe (2019/2020 combined) - per-vertebra labels + community standard
@@ -472,27 +472,27 @@ Aggregate outputs → final labeled segmentation
 
 ### 5.1 3D U-Net (Foundational)
 
-**Reference:** Çiçek et al. (2016)
+**Reference:** ?i?ek et al. (2016)
 
 **Architecture:**
 ```
 Input volume (patch of CT)
-    ↓
+    ?
 Encoder (downsampling with convolutions)
-    ├→ Block 1: Conv→ReLU→Conv (16 features)
-    ├→ MaxPool 2x2x2
-    ├→ Block 2: Conv→ReLU→Conv (32 features)
-    ├→ MaxPool 2x2x2
-    ├→ Block 3: Conv→ReLU→Conv (64 features) [bottleneck]
-    ↓
+    ?? Block 1: Conv?ReLU?Conv (16 features)
+    ?? MaxPool 2x2x2
+    ?? Block 2: Conv?ReLU?Conv (32 features)
+    ?? MaxPool 2x2x2
+    ?? Block 3: Conv?ReLU?Conv (64 features) [bottleneck]
+    ?
 Decoder (upsampling with deconvolutions)
-    ├→ Upsample 2x2x2
-    ├→ Concatenate with encoder skip connection (64+64 features)
-    ├→ Block: Conv→ReLU→Conv (32 features)
-    ├→ Upsample 2x2x2
-    ├→ Concatenate with encoder skip (32+32 features)
-    ├→ Block: Conv→ReLU→Conv (16 features)
-    ↓
+    ?? Upsample 2x2x2
+    ?? Concatenate with encoder skip connection (64+64 features)
+    ?? Block: Conv?ReLU?Conv (32 features)
+    ?? Upsample 2x2x2
+    ?? Concatenate with encoder skip (32+32 features)
+    ?? Block: Conv?ReLU?Conv (16 features)
+    ?
 Output: Per-voxel class predictions
 ```
 
@@ -502,7 +502,7 @@ Output: Per-voxel class predictions
 - Multiple pyramid levels: Captures multi-scale features
 
 **Hyperparameters:**
-- Input patch size: Often 128³ or 64³ (depends on GPU memory)
+- Input patch size: Often 128? or 64? (depends on GPU memory)
 - Channels: Typically 16-32 base, doubling with depth
 - Depth: 4-5 levels common
 - Batch norm / dropout: Important for stability
@@ -592,18 +592,18 @@ Output: Per-voxel class predictions
 **Architecture:**
 ```
 Input volume
-    ↓
-Patch embedding (16x16x16 patches → embeddings)
-    ↓
+    ?
+Patch embedding (16x16x16 patches ? embeddings)
+    ?
 Transformer encoder (12 layers of multi-head self-attention)
-    ├→ Each layer: MultiHeadAttention → FeedForward
-    ├→ Positional encoding (3D)
-    ├→ Output: Attention-enriched embeddings
-    ↓
+    ?? Each layer: MultiHeadAttention ? FeedForward
+    ?? Positional encoding (3D)
+    ?? Output: Attention-enriched embeddings
+    ?
 Hybrid decoder (CNN + transformer features)
-    ├→ Upsample with skip connections from transformer layers
-    ├→ Multi-scale feature fusion
-    ↓
+    ?? Upsample with skip connections from transformer layers
+    ?? Multi-scale feature fusion
+    ?
 Output: Per-voxel class predictions
 ```
 
@@ -619,7 +619,7 @@ Output: Per-voxel class predictions
 - **Performance:** Competitive with nnU-Net on benchmarks
 
 **Limitations:**
-- **Computational cost:** O(n²) complexity for self-attention (n = number of patches)
+- **Computational cost:** O(n?) complexity for self-attention (n = number of patches)
 - **Memory:** Requires more GPU memory than CNN
 - **Training time:** Typically longer than 3D U-Net
 - **Inference time:** 2-3x slower than 3D U-Net
@@ -629,7 +629,7 @@ Output: Per-voxel class predictions
 - Provides additional attention-based interpretability
 
 **Typical configuration:**
-- Patch size: 16³
+- Patch size: 16?
 - 12 transformer layers
 - 12 attention heads
 - Patch embedding dimension: 768
@@ -645,24 +645,24 @@ Output: Per-voxel class predictions
 **Architecture:**
 ```
 Input volume
-    ↓
+    ?
 Patch embedding
-    ↓
+    ?
 Swin transformer encoder (hierarchical window-based attention)
-    ├→ Compute self-attention within local windows (smaller n²)
-    ├→ Shifted windows for cross-window communication
-    ├→ Hierarchical (coarse to fine)
-    ↓
+    ?? Compute self-attention within local windows (smaller n?)
+    ?? Shifted windows for cross-window communication
+    ?? Hierarchical (coarse to fine)
+    ?
 Hybrid decoder (CNN + Swin features)
-    ↓
+    ?
 Output: Per-voxel class predictions
 ```
 
 **Key innovation:** **Window-based attention**
-- Divide volume into non-overlapping windows (e.g., 7³)
+- Divide volume into non-overlapping windows (e.g., 7?)
 - Compute attention within each window
 - Shift window position between layers for inter-window communication
-- Reduces complexity from O(n²) to O(n)
+- Reduces complexity from O(n?) to O(n)
 
 **Advantages:**
 - Much faster than full UNETR (similar accuracy, faster inference)
@@ -738,10 +738,10 @@ Output: Per-voxel class predictions
 - Common practice in state-of-the-art methods
 
 **Cons:**
-- Requires tuning weight α
+- Requires tuning weight ?
 - More complex optimization landscape
 
-**Use case:** Recommended for vertebra segmentation (α ≈ 0.5-0.7).
+**Use case:** Recommended for vertebra segmentation (? ? 0.5-0.7).
 
 ---
 
@@ -761,7 +761,7 @@ Output: Per-voxel class predictions
 
 ### 6.2 Evaluation Metrics
 
-#### Dice Coefficient (Sørensen–Dice)
+#### Dice Coefficient (S?rensen?Dice)
 **Formula:** $Dice = \frac{2|X \cap Y|}{|X| + |Y|}$
 
 **Range:** 0-1 (1 = perfect overlap)
@@ -890,7 +890,7 @@ For vertebra labeling (assigning anatomical identities):
 **Labeling error types:**
 - Off-by-one errors (predicting C3 instead of C4)
 - Transitional vertebra confusion
-- Cascade errors (one mislabeled vertebra → all subsequent labels wrong)
+- Cascade errors (one mislabeled vertebra ? all subsequent labels wrong)
 
 **Recommended metric:** Report confusion matrix for anatomical identity predictions.
 
@@ -902,7 +902,7 @@ For vertebra labeling (assigning anatomical identities):
 
 ```
 Raw DICOM/NIfTI
-    ↓
+    ?
 [1] DICOM parsing + orientation normalization
 [2] Voxel spacing resampling (typically 1.0mm isotropic or native)
 [3] Intensity normalization (HU windowing)
@@ -942,8 +942,8 @@ Raw DICOM/NIfTI
 **Implementation:** Use scipy.ndimage or monai.transforms.Resample
 
 **Considerations:**
-- Upsampling (e.g., 5mm → 1mm) adds interpolation artifacts but enables consistency
-- Downsampling (e.g., 0.5mm → 1.0mm) loses detail but reduces computation
+- Upsampling (e.g., 5mm ? 1mm) adds interpolation artifacts but enables consistency
+- Downsampling (e.g., 0.5mm ? 1.0mm) loses detail but reduces computation
 - Cubic interpolation typically best (vs nearest-neighbor or linear)
 
 **Trade-off:** Most methods use 1.0-2.0mm isotropic as practical compromise.
@@ -978,7 +978,7 @@ normalized = (volume - mean_HU) / std_HU
 - Clipping outside range removes noise
 - Normalization stabilizes network training
 
-**Standard practice:** HU windowing to [−1000, 3000] then rescale to [0, 1] or [-1, 1].
+**Standard practice:** HU windowing to [?1000, 3000] then rescale to [0, 1] or [-1, 1].
 
 ---
 
@@ -1012,9 +1012,9 @@ normalized = (volume - mean_HU) / std_HU
 - **Adaptive patching:** Vary patch size based on volume size
 
 **Typical target sizes:**
-- 128³ (for GPU memory constraints)
-- 192³ (higher resolution)
-- 256³ (very large patches; requires strong GPU)
+- 128? (for GPU memory constraints)
+- 192? (higher resolution)
+- 256? (very large patches; requires strong GPU)
 
 **Implementation:** Pad with zeros or mirror values; MONAI provides utilities.
 
@@ -1029,7 +1029,7 @@ normalized = (volume - mean_HU) / std_HU
 | Augmentation | Type | Implementation | Impact |
 |-----------|------|---------|--------|
 | Random flips | Geometric | Flip along anatomical axes (left-right, sometimes top-bottom) | Doubles dataset |
-| Random rotations | Geometric | Rotate ±15° around axis | Improves orientation robustness |
+| Random rotations | Geometric | Rotate ?15? around axis | Improves orientation robustness |
 | Elastic deformations | Geometric | Random elastic warping | Simulates anatomical variability |
 | Intensity jittering | Intensity | Add Gaussian noise | Robustness to noise |
 | Gamma correction | Intensity | Adjust brightness/contrast | Protocol variation |
@@ -1198,12 +1198,12 @@ normalized = (volume - mean_HU) / std_HU
 **Recommended:** MONAI + PyTorch
 
 **Rationale:**
-- 3D CT support ✓
-- Comprehensive preprocessing ✓
-- Multiple architectures available ✓
-- Good documentation ✓
-- Active maintenance ✓
-- Reproducibility ✓
+- 3D CT support ?
+- Comprehensive preprocessing ?
+- Multiple architectures available ?
+- Good documentation ?
+- Active maintenance ?
+- Reproducibility ?
 
 **Alternative:** nnU-Net (simpler, but less customizable)
 
@@ -1288,7 +1288,7 @@ The field of automated vertebral segmentation has matured significantly with the
 
 **Key technical decisions:**
 1. **Framework:** MONAI + PyTorch (reproducible, comprehensive)
-2. **Architecture:** 3D U-Net baseline → benchmark against nnU-Net/Swin UNETR
+2. **Architecture:** 3D U-Net baseline ? benchmark against nnU-Net/Swin UNETR
 3. **Dataset:** VerSe for development; cross-dataset validation on SPIDER/CTSpine1K
 4. **Labeling:** Multi-class segmentation initially; multi-task learning for robustness
 5. **Loss:** Dice loss (primary) + optional CE (auxiliary)
@@ -1308,15 +1308,15 @@ The field of automated vertebral segmentation has matured significantly with the
 See `papers.csv` for complete reference database with DOI links.
 
 **Key citations:**
-- Löffler et al. (2020): VerSe dataset - primary benchmark
+- L?ffler et al. (2020): VerSe dataset - primary benchmark
 - Isensee et al. (2019): nnU-Net - reference standard
 - Hatamizadeh et al. (2022): UNETR/Swin UNETR - transformer approaches
 - Wasserthal et al. (2023): TotalSegmentator - multi-organ foundation
-- Çiçek et al. (2016): 3D U-Net - foundational architecture
+- ?i?ek et al. (2016): 3D U-Net - foundational architecture
 - Ronneberger et al. (2015): U-Net - original encoder-decoder
 
 ---
 
-**Document prepared:** September 7, 2026  
-**Status:** Comprehensive literature review for vertebral segmentation research project  
+**Document prepared:** September 7, 2026
+**Status:** Comprehensive literature review for vertebral segmentation research project
 **Next step:** Dataset benchmarking + model architecture evaluation

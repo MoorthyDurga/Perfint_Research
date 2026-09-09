@@ -6,29 +6,29 @@ channels:
 dependencies:
   # Python
   - python=3.10
-  
+
   # PyTorch (CUDA 12.1 compatible)
   - pytorch::pytorch::2.0.0=py3.10_cuda12.1_cudnn8.9*
   - pytorch::pytorch-cuda=12.1
   - pytorch::torchvision::0.15.0
   - pytorch::torchaudio::2.0.0
-  
+
   # Core scientific stack
   - numpy::numpy=1.24
   - scipy::scipy=1.10
   - pandas::pandas=2.0
   - scikit-learn::scikit-learn=1.2
   - scikit-image::scikit-image=0.21
-  
+
   # Medical imaging
   - conda-forge::nibabel=5.1
   - conda-forge::pydicom=2.4
   - conda-forge::simpleitk=2.3
-  
+
   # Visualization
   - matplotlib::matplotlib=3.7
   - conda-forge::plotly=5.14
-  
+
   # Development tools
   - conda-forge::jupyter=1.0
   - conda-forge::jupyterlab=4.0
@@ -37,13 +37,13 @@ dependencies:
   - conda-forge::black=23.3
   - conda-forge::flake8=6.0
   - conda-forge::mypy=1.2
-  
+
   # Utilities
   - conda-forge::tqdm=4.65
   - conda-forge::pyyaml=6.0
   - conda-forge::python-dotenv=1.0
   - conda-forge::pillow=9.5
-  
+
   # Optional GPU utilities
   - conda-forge::cudatoolkit=12.1
 

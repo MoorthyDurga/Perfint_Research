@@ -1,7 +1,7 @@
 # Surgical Navigation Workflows for Spine Surgery
 
-**Version:** 1.0  
-**Date:** September 7, 2026  
+**Version:** 1.0
+**Date:** September 7, 2026
 **Scope:** Detailed breakdown of surgical navigation workflows, stages, and dependencies
 
 ---
@@ -15,30 +15,30 @@ Modern spine surgical navigation systems follow a structured workflow with disti
 ## 1. Complete Surgical Navigation Pipeline
 
 ```
-┌─────────────────────────────────────────────────────────────────────┐
-│                   COMPLETE SURGICAL WORKFLOW                          │
-└─────────────────────────────────────────────────────────────────────┘
+???????????????????????????????????????????????????????????????????????
+?                   COMPLETE SURGICAL WORKFLOW                          ?
+???????????????????????????????????????????????????????????????????????
 
 STAGE 1: PREOPERATIVE ASSESSMENT & PLANNING
-  ↓
+  ?
 STAGE 2: IMAGING ACQUISITION & PREPROCESSING
-  ↓
+  ?
 STAGE 3: SEGMENTATION & ANATOMICAL ANALYSIS
-  ↓
+  ?
 STAGE 4: SURGICAL PLANNING & TRAJECTORY DESIGN
-  ↓
+  ?
 STAGE 5: OPERATIVE SETUP & PATIENT PREPARATION
-  ↓
+  ?
 STAGE 6: IMAGE REGISTRATION & VERIFICATION
-  ↓
+  ?
 STAGE 7: INSTRUMENT CALIBRATION & NAVIGATION
-  ↓
+  ?
 STAGE 8: INTRAOPERATIVE GUIDANCE & EXECUTION
-  ↓
+  ?
 STAGE 9: INTRAOPERATIVE VERIFICATION
-  ↓
+  ?
 STAGE 10: CLOSURE & IMMEDIATE POSTOPERATIVE
-  ↓
+  ?
 STAGE 11: POSTOPERATIVE VERIFICATION IMAGING
 ```
 
@@ -99,17 +99,17 @@ Step 1: Patient positioning
   - Position in CT gantry
   - Ensure neutral spine (no flexion/extension)
   - Note: Patient position here should match surgical position!
-  
+
 Step 2: Scout scan
   - Quick overview image
   - Plan acquisition limits (from occiput to sacrum typically)
-  
+
 Step 3: Helical acquisition
   - Slice thickness: 0.5-3mm (thin slices preferred)
   - Spacing: <1mm if possible
   - Reconstruction kernel: Bone algorithm
   - Note: Thick slices (>2mm) compromise registration accuracy
-  
+
 Step 4: Review & QA
   - Check image quality
   - Verify spine covered completely
@@ -122,15 +122,15 @@ Step 1: DICOM parsing & organization
   - Extract patient identifiers
   - Verify all slices acquired
   - Sort by anatomical location
-  
+
 Step 2: Orientation standardization
   - Convert to RAS convention (Right-Anterior-Superior)
   - Ensures consistent coordinate system
-  
+
 Step 3: Intensity calibration
   - Map to Hounsfield units (HU)
   - Verify bone/soft tissue HU ranges
-  
+
 Step 4: Artifact assessment
   - Identify metal artifacts
   - Note beam hardening zones
@@ -201,7 +201,7 @@ Challenges:
 Current error rate:
   - Manual labeling: 2-5% errors
   - Auto+ manual verification: <1% errors
-  
+
 OPPORTUNITY FOR IMPROVEMENT:
   - Automatic labeling could reduce errors to <0.5%
   - Provide confidence estimates
@@ -216,7 +216,7 @@ Identify and mark:
   3. Severe degenerative changes
   4. Tumors or lesions
   5. Unusual anatomy
-  
+
 Why important:
   - Affects trajectory planning
   - Influences screw insertion angles
@@ -230,7 +230,7 @@ Generate 3D spine model:
   2. Surface extraction (cortical bone)
   3. Color-code by vertebra
   4. Can rotate/inspect from any angle
-  
+
 Benefit:
   - Better visualization of complex anatomy
   - Easier to spot errors in segmentation
@@ -245,7 +245,7 @@ Benefit:
 
 **Time bottleneck:** Segmentation + labeling can take 30+ minutes
 
-**RESEARCH OPPORTUNITY:** Automatic segmentation + labeling ← Project 1!
+**RESEARCH OPPORTUNITY:** Automatic segmentation + labeling ? Project 1!
 
 **Technology involved:**
 - Navigation planning software (proprietary to each system)
@@ -269,7 +269,7 @@ Determine surgical objective:
   - Vertebral body approach for tumor
   - Kyphoplasty balloon placement
   - Decompression levels
-  
+
 Mark target(s) on 3D model:
   - Vertebra identification
   - Side (left/right) selection
@@ -287,10 +287,10 @@ For each target:
      - Considerations: vessel avoidance, nerve avoidance
   4. Visualize trajectory in 3D
   5. Check for collisions with anatomy
-  
+
 Typical constraints:
   - Pedicle screw: Trajectory through pedicle into vertebral body
-  - Angle limits: Usually 20-40° depending on procedure
+  - Angle limits: Usually 20-40? depending on procedure
   - Nerve/vessel avoidance: Ensure trajectory doesn't cross
 ```
 
@@ -353,14 +353,14 @@ Position patient on operating table:
 **5C. Reference Frame Application:**
 ```
 For systems requiring reference frame (StealthStation, Stryker):
-  
+
   1. Determine frame location (typically sacrum or pelvis)
   2. Secure reference array to patient
      - Percutaneous pins (invasive; StealthStation, Stryker)
      - Adhesive markers (non-invasive; ExcelsiusGPS surface)
   3. Verify frame rigidly attached
   4. Verify clear line-of-sight to OR cameras
-  
+
 For markerless systems (7D Surgical):
   - No reference frame needed
   - Faster setup
@@ -405,7 +405,7 @@ Method 1: Point-based registration (most common)
   2. Identify 4-6 corresponding points
   3. Software computes rigid transformation
   4. Result: Alignment between CT and patient anatomy
-  
+
   Issues:
   - Requires accessible anatomical landmarks
   - Surgeon skill-dependent (accuracy of palpation)
@@ -417,12 +417,12 @@ Method 2: Surface-based registration
   2. Segment spine surface from intraop image
   3. Automatically align with preop CT surface
   4. Software computes alignment
-  
+
   Advantages:
   - Less operator-dependent
   - Can use more information (entire surface)
   - Better accuracy potential
-  
+
   Disadvantages:
   - Requires intraop imaging
   - More computationally intensive
@@ -432,11 +432,11 @@ Method 3: Fiducial-based registration
   2. Mark fiducial locations in CT during planning
   3. Locate fiducials intraop
   4. Software maps fiducials to registration
-  
+
   Advantages:
   - Very accurate (if fiducials placed well)
   - Automated detection possible
-  
+
   Disadvantages:
   - Requires fiducial placement (invasive)
   - May shift during surgery
@@ -451,7 +451,7 @@ After registration computed:
      - Pedicles aligned?
      - Vertebral bodies aligned?
      - Facets in correct position?
-  
+
   If misalignment detected:
   - Repeat registration (add more points)
   - Check patient position (may have moved)
@@ -469,11 +469,11 @@ Typical accuracy targets:
    - Place probe at known point
    - Verify display shows correct coordinates
    - Check orientation registration
-  
+
 2. Test instrument tracking
    - Move instrument; verify tracking smooth
    - Check for jumps or noise
-   
+
 3. Verify probe tip calibration
    - Touch probe tip to known landmarks
    - Verify registration shows correct coordinates
@@ -541,27 +541,27 @@ STEP 1: Display guidance
   - Show planned trajectory on screen
   - Show current instrument position
   - Show deviation from plan (usually color-coded)
-  
+
 STEP 2: Navigate to start point
   - Move drill guide to entry point
   - Use guidance display to adjust position
   - Verify alignment before drilling
-  
+
 STEP 3: Execute trajectory
   - Drill along planned trajectory
   - Real-time feedback shows deviation
   - Stop drilling at target depth
-  
+
 STEP 4: Insertion
   - Switch to screw/implant insertion
   - Track insertion instrument
   - Verify proper orientation
   - Advance screw to target depth
-  
+
 STEP 5: Repeat for next target
   - Move to next planned trajectory
   - Repeat above steps
-  
+
 Total time per level: 5-15 minutes
   - Robotic assistance: 5-8 minutes faster
   - Manual navigation: Standard surgical timing
@@ -571,7 +571,7 @@ Total time per level: 5-15 minutes
 
 ```
 Scenario 1: Instrument drifts off trajectory
-  Response: 
+  Response:
   - Navigation shows deviation
   - Surgeon adjusts trajectory
   - Real-time correction before implant placed
@@ -581,7 +581,7 @@ Scenario 2: Patient movement during surgery
   - Reference frame movement detected
   - Navigation recomputes transformation
   - May require re-registration if shift significant
-  
+
 Scenario 3: Unexpected anatomy (e.g., tumor, vessel)
   Response:
   - Surgeon notes on intraop imaging
@@ -621,20 +621,20 @@ Option 1: Fluoroscopy (traditional)
   - Real-time capability
   - Radiation exposure: Moderate
   - Cost: Low
-  
+
 Option 2: Cone-beam CT (Stryker O-arm, Brainlab iCT)
   - Full 3D volumetric imaging
   - Best assessment of screw position
   - Radiation exposure: Moderate-high
   - Cost: High
   - Time: 2-3 minutes for acquisition/reconstruction
-  
+
 Option 3: Intraop imaging (7D Surgical)
   - Real-time 3D imaging
   - Markerless updating of guidance
   - Best on-the-fly verification
   - Radiation: Variable (can use non-ionizing)
-  
+
 Option 4: No verification (risky)
   - Only if navigation accuracy very high
   - Generally not recommended
@@ -715,12 +715,12 @@ Timing 1: Same-day or next-day imaging
   - Verify no immediate complications
   - Check screw positioning
   - Assess for hematoma/infection signs
-  
+
 Timing 2: 6-week follow-up
   - Assess fusion progress (if fusion surgery)
   - Check for implant subsidence
   - Verify stable positioning
-  
+
 Timing 3: 3-month follow-up (if applicable)
   - Assess bone healing
   - Check for complications
@@ -754,83 +754,83 @@ Look for:
 ## 3. Data Flow Diagram
 
 ```
-┌─────────────────┐
-│ Preop CT scan   │ Slice thickness: 0.5-1mm
-└────────┬────────┘ Isotropic or nearly isotropic
-         │
-         ↓
-    ┌────────────────────────────────────┐
-    │ Preprocessing & Standardization     │
-    │ - Orientation (RAS convention)      │
-    │ - Intensity normalization (HU)      │
-    │ - Artifact assessment              │
-    └────────┬──────────────────────────┘
-         │
-         ↓
-    ┌────────────────────────────────────┐
-    │ SEGMENTATION & LABELING ← PROJECT 1│
-    │ - Vertebral segmentation           │
-    │ - Per-vertebra classification      │
-    │ - Pathology detection              │
-    │ - [Current: 30+ min manual]         │
-    │ - [Goal: <1 min automatic]          │
-    └────────┬──────────────────────────┘
-         │
-         ↓
-    ┌────────────────────────────────────┐
-    │ 3D Reconstruction & Planning        │
-    │ - Generate 3D model                │
-    │ - Identify targets                  │
-    │ - Plan trajectories                 │
-    │ - Export to OR system              │
-    └────────┬──────────────────────────┘
-         │
-         ↓
-    ┌────────────────────────────────────┐
-    │ Operative Setup (OR)                │
-    │ - Patient positioning              │
-    │ - Reference frame/markers          │
-    │ - Navigation system boot           │
-    └────────┬──────────────────────────┘
-         │
-         ↓
-    ┌────────────────────────────────────┐
-    │ Registration & Verification         │
-    │ - Point-based or surface-based    │
-    │ - Verify <2mm accuracy             │
-    │ - Instrument calibration           │
-    └────────┬──────────────────────────┘
-         │
-         ↓
-    ┌────────────────────────────────────┐
-    │ Intraoperative Navigation           │
-    │ - Real-time instrument tracking    │
-    │ - Trajectory guidance              │
-    │ - Position updates                 │
-    │ - Error detection/correction       │
-    └────────┬──────────────────────────┘
-         │
-         ↓
-    ┌────────────────────────────────────┐
-    │ Intraoperative Verification        │
-    │ - Fluoroscopy / cone-beam CT       │
-    │ - Confirm screw placement          │
-    └────────┬──────────────────────────┘
-         │
-         ↓
-    ┌────────────────────────────────────┐
-    │ Closure & Postoperative             │
-    │ - Wound closure                    │
-    │ - Initial monitoring               │
-    └────────┬──────────────────────────┘
-         │
-         ↓
-    ┌────────────────────────────────────┐
-    │ Postoperative Imaging               │
-    │ - Follow-up X-ray, CT, MRI        │
-    │ - Complication assessment          │
-    │ - Long-term fusion assessment      │
-    └────────────────────────────────────┘
+???????????????????
+? Preop CT scan   ? Slice thickness: 0.5-1mm
+??????????????????? Isotropic or nearly isotropic
+         ?
+         ?
+    ??????????????????????????????????????
+    ? Preprocessing & Standardization     ?
+    ? - Orientation (RAS convention)      ?
+    ? - Intensity normalization (HU)      ?
+    ? - Artifact assessment              ?
+    ?????????????????????????????????????
+         ?
+         ?
+    ??????????????????????????????????????
+    ? SEGMENTATION & LABELING ? PROJECT 1?
+    ? - Vertebral segmentation           ?
+    ? - Per-vertebra classification      ?
+    ? - Pathology detection              ?
+    ? - [Current: 30+ min manual]         ?
+    ? - [Goal: <1 min automatic]          ?
+    ?????????????????????????????????????
+         ?
+         ?
+    ??????????????????????????????????????
+    ? 3D Reconstruction & Planning        ?
+    ? - Generate 3D model                ?
+    ? - Identify targets                  ?
+    ? - Plan trajectories                 ?
+    ? - Export to OR system              ?
+    ?????????????????????????????????????
+         ?
+         ?
+    ??????????????????????????????????????
+    ? Operative Setup (OR)                ?
+    ? - Patient positioning              ?
+    ? - Reference frame/markers          ?
+    ? - Navigation system boot           ?
+    ?????????????????????????????????????
+         ?
+         ?
+    ??????????????????????????????????????
+    ? Registration & Verification         ?
+    ? - Point-based or surface-based    ?
+    ? - Verify <2mm accuracy             ?
+    ? - Instrument calibration           ?
+    ?????????????????????????????????????
+         ?
+         ?
+    ??????????????????????????????????????
+    ? Intraoperative Navigation           ?
+    ? - Real-time instrument tracking    ?
+    ? - Trajectory guidance              ?
+    ? - Position updates                 ?
+    ? - Error detection/correction       ?
+    ?????????????????????????????????????
+         ?
+         ?
+    ??????????????????????????????????????
+    ? Intraoperative Verification        ?
+    ? - Fluoroscopy / cone-beam CT       ?
+    ? - Confirm screw placement          ?
+    ?????????????????????????????????????
+         ?
+         ?
+    ??????????????????????????????????????
+    ? Closure & Postoperative             ?
+    ? - Wound closure                    ?
+    ? - Initial monitoring               ?
+    ?????????????????????????????????????
+         ?
+         ?
+    ??????????????????????????????????????
+    ? Postoperative Imaging               ?
+    ? - Follow-up X-ray, CT, MRI        ?
+    ? - Complication assessment          ?
+    ? - Long-term fusion assessment      ?
+    ??????????????????????????????????????
 ```
 
 ---
@@ -891,7 +891,7 @@ Enhanced stages:
   - Robotic positioning (arms positions drill guide)
   - Robotic-assisted drilling (surgeon supervises)
   - Real-time trajectory verification
-  
+
 Benefits:
   - More consistent angles/depths
   - No manual drilling (less fatigue)
@@ -906,7 +906,7 @@ Enhanced stages:
   - Fluoroscopy overlay on planning
   - Real-time fluoro verification
   - Intraoperative imaging guides corrections
-  
+
 Benefits:
   - Immediate visual feedback
   - Can adjust trajectory before inserting screw
@@ -919,9 +919,9 @@ Benefits:
 Enhanced stages:
   - Multi-modal registration (CT + MRI fusion in planning)
   - Real-time iCT imaging during procedure
-  - Dynamic update of navigation (new images → new coordinates)
+  - Dynamic update of navigation (new images ? new coordinates)
   - Most versatile workflow
-  
+
 Benefits:
   - Best verification imaging
   - Multi-modal guidance
@@ -936,7 +936,7 @@ Enhanced stages:
   - Intraoperative 3D imaging as registration source
   - Markerless tracking via deep learning
   - Continuous real-time verification imaging
-  
+
 Benefits:
   - Fastest setup
   - Best real-time verification
@@ -981,7 +981,7 @@ Benefits:
 
 ## Conclusion
 
-Modern surgical navigation systems support a highly structured workflow with distinct stages, clear data dependencies, and multiple technology touch-points. 
+Modern surgical navigation systems support a highly structured workflow with distinct stages, clear data dependencies, and multiple technology touch-points.
 
 **Key workflow bottleneck:** Preoperative segmentation/labeling (30-60 minutes)
 **Solution:** Project 1 automatic vertebral segmentation & labeling
@@ -990,6 +990,6 @@ This workflow mapping demonstrates how vertebral segmentation/labeling represent
 
 ---
 
-**Document prepared:** September 7, 2026  
-**Status:** Surgical workflow mapping complete  
+**Document prepared:** September 7, 2026
+**Status:** Surgical workflow mapping complete
 **Next step:** Instrument taxonomy + opportunity analysis

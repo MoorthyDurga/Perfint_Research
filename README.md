@@ -28,7 +28,7 @@ Focus: Imaging, registration, tracking, planning, and robotic guidance workflows
 
 | Component | Status |
 |-----------|--------|
-| Repository initialization | ✓ COMPLETE |
+| Repository initialization | [OK] COMPLETE |
 | Literature review | IN PROGRESS |
 | Dataset benchmark | IN PROGRESS |
 | Model architecture benchmark | IN PROGRESS |
@@ -49,106 +49,106 @@ Focus: Imaging, registration, tracking, planning, and robotic guidance workflows
 
 ```
 .
-├── README.md                          # This file
-├── PROJECT_STATUS.md                  # Detailed status tracking
-├── CHECKIN_SUMMARY.md                 # Project check-in summary
-├── ROADMAP.md                         # Development roadmap
-├── requirements.txt                   # Python dependencies
-├── environment.yml                    # Conda environment spec
-├── pyproject.toml                     # Project configuration
-│
-├── project1_vertebra_segmentation/
-│   ├── literature/
-│   │   ├── literature_review.md       # Comprehensive literature review
-│   │   ├── papers.csv                 # Database of reviewed papers
-│   │   └── key_papers/                # Important paper summaries
-│   │
-│   ├── datasets/
-│   │   ├── dataset_registry.csv       # Registry of available datasets
-│   │   ├── dataset_benchmark.md       # Dataset comparison analysis
-│   │   └── dataset_selection.md       # Primary/secondary dataset rationale
-│   │
-│   ├── models/
-│   │   ├── model_benchmark.md         # Model architecture comparison
-│   │   ├── model_comparison.csv       # Detailed model specs
-│   │   └── baseline_selection.md      # Selected baseline rationale
-│   │
-│   ├── src/
-│   │   ├── preprocessing/
-│   │   │   ├── __init__.py
-│   │   │   ├── ct_loader.py
-│   │   │   ├── transforms.py
-│   │   │   └── normalization.py
-│   │   ├── datasets/
-│   │   │   ├── __init__.py
-│   │   │   └── ct_dataset.py
-│   │   ├── models/
-│   │   │   ├── __init__.py
-│   │   │   └── baseline.py
-│   │   ├── inference/
-│   │   │   ├── __init__.py
-│   │   │   └── predictor.py
-│   │   ├── evaluation/
-│   │   │   ├── __init__.py
-│   │   │   ├── metrics.py
-│   │   │   └── visualizer.py
-│   │   └── utils/
-│   │       ├── __init__.py
-│   │       └── config.py
-│   │
-│   ├── configs/
-│   │   ├── preprocessing.yaml
-│   │   ├── dataset.yaml
-│   │   ├── training.yaml
-│   │   └── inference.yaml
-│   │
-│   ├── scripts/
-│   │   ├── preprocess_ct.py
-│   │   ├── run_inference.py
-│   │   └── evaluate.py
-│   │
-│   ├── notebooks/
-│   │   ├── 01_dataset_exploration.ipynb
-│   │   ├── 02_preprocessing_validation.ipynb
-│   │   └── 03_inference_results.ipynb
-│   │
-│   ├── results/
-│   │   ├── predictions/
-│   │   ├── visualizations/
-│   │   └── metrics/
-│   │
-│   └── tests/
-│       ├── test_preprocessing.py
-│       ├── test_dataset.py
-│       └── test_inference.py
-│
-├── project2_navigation/
-│   ├── competitors/
-│   │   ├── stealthstation.md
-│   │   ├── globus_excelsius.md
-│   │   ├── stryker.md
-│   │   ├── brainlab.md
-│   │   ├── 7d_surgical.md
-│   │   └── sources.md
-│   │
-│   ├── competitor_matrix.csv           # Comparative feature matrix
-│   ├── competitor_analysis.md          # Overall competitive analysis
-│   ├── navigation_workflows.md         # Workflow stage-by-stage breakdown
-│   ├── instrument_taxonomy.md          # Instrument categories and tracking
-│   ├── opportunity_matrix.csv          # Technical opportunities
-│   └── figures/                        # Workflow diagrams, matrices
-│
-├── docs/
-│   ├── technical_architecture.md      # Integration of Projects 1 & 2
-│   ├── evaluation_protocol.md         # Metrics and validation approach
-│   ├── technical_risks.md             # Risk analysis and mitigation
-│   ├── research_decisions.md          # Decision log
-│   ├── experiment_roadmap.md          # Planned experiments
-│   ├── two_week_progress.md           # Two-week progression narrative
-│   └── checkin_slides.md              # Presentation outline
-│
-└── .github/
-    └── workflows/                      # CI/CD pipelines (future)
+??? README.md                          # This file
+??? PROJECT_STATUS.md                  # Detailed status tracking
+??? CHECKIN_SUMMARY.md                 # Project check-in summary
+??? ROADMAP.md                         # Development roadmap
+??? requirements.txt                   # Python dependencies
+??? environment.yml                    # Conda environment spec
+??? pyproject.toml                     # Project configuration
+?
+??? project1_vertebra_segmentation/
+?   ??? literature/
+?   ?   ??? literature_review.md       # Comprehensive literature review
+?   ?   ??? papers.csv                 # Database of reviewed papers
+?   ?   ??? key_papers/                # Important paper summaries
+?   ?
+?   ??? datasets/
+?   ?   ??? dataset_registry.csv       # Registry of available datasets
+?   ?   ??? dataset_benchmark.md       # Dataset comparison analysis
+?   ?   ??? dataset_selection.md       # Primary/secondary dataset rationale
+?   ?
+?   ??? models/
+?   ?   ??? model_benchmark.md         # Model architecture comparison
+?   ?   ??? model_comparison.csv       # Detailed model specs
+?   ?   ??? baseline_selection.md      # Selected baseline rationale
+?   ?
+?   ??? src/
+?   ?   ??? preprocessing/
+?   ?   ?   ??? __init__.py
+?   ?   ?   ??? ct_loader.py
+?   ?   ?   ??? transforms.py
+?   ?   ?   ??? normalization.py
+?   ?   ??? datasets/
+?   ?   ?   ??? __init__.py
+?   ?   ?   ??? ct_dataset.py
+?   ?   ??? models/
+?   ?   ?   ??? __init__.py
+?   ?   ?   ??? baseline.py
+?   ?   ??? inference/
+?   ?   ?   ??? __init__.py
+?   ?   ?   ??? predictor.py
+?   ?   ??? evaluation/
+?   ?   ?   ??? __init__.py
+?   ?   ?   ??? metrics.py
+?   ?   ?   ??? visualizer.py
+?   ?   ??? utils/
+?   ?       ??? __init__.py
+?   ?       ??? config.py
+?   ?
+?   ??? configs/
+?   ?   ??? preprocessing.yaml
+?   ?   ??? dataset.yaml
+?   ?   ??? training.yaml
+?   ?   ??? inference.yaml
+?   ?
+?   ??? scripts/
+?   ?   ??? preprocess_ct.py
+?   ?   ??? run_inference.py
+?   ?   ??? evaluate.py
+?   ?
+?   ??? notebooks/
+?   ?   ??? 01_dataset_exploration.ipynb
+?   ?   ??? 02_preprocessing_validation.ipynb
+?   ?   ??? 03_inference_results.ipynb
+?   ?
+?   ??? results/
+?   ?   ??? predictions/
+?   ?   ??? visualizations/
+?   ?   ??? metrics/
+?   ?
+?   ??? tests/
+?       ??? test_preprocessing.py
+?       ??? test_dataset.py
+?       ??? test_inference.py
+?
+??? project2_navigation/
+?   ??? competitors/
+?   ?   ??? stealthstation.md
+?   ?   ??? globus_excelsius.md
+?   ?   ??? stryker.md
+?   ?   ??? brainlab.md
+?   ?   ??? 7d_surgical.md
+?   ?   ??? sources.md
+?   ?
+?   ??? competitor_matrix.csv           # Comparative feature matrix
+?   ??? competitor_analysis.md          # Overall competitive analysis
+?   ??? navigation_workflows.md         # Workflow stage-by-stage breakdown
+?   ??? instrument_taxonomy.md          # Instrument categories and tracking
+?   ??? opportunity_matrix.csv          # Technical opportunities
+?   ??? figures/                        # Workflow diagrams, matrices
+?
+??? docs/
+?   ??? technical_architecture.md      # Integration of Projects 1 & 2
+?   ??? evaluation_protocol.md         # Metrics and validation approach
+?   ??? technical_risks.md             # Risk analysis and mitigation
+?   ??? research_decisions.md          # Decision log
+?   ??? experiment_roadmap.md          # Planned experiments
+?   ??? two_week_progress.md           # Two-week progression narrative
+?   ??? checkin_slides.md              # Presentation outline
+?
+??? .github/
+    ??? workflows/                      # CI/CD pipelines (future)
 ```
 
 ## Installation & Setup
@@ -292,12 +292,12 @@ Competitor information sourced from:
 
 ## Status & Next Steps
 
-This repository represents the foundation of a research program in vertebral segmentation and surgical navigation technology. 
+This repository represents the foundation of a research program in vertebral segmentation and surgical navigation technology.
 
 **For the next project review, see:** [CHECKIN_SUMMARY.md](CHECKIN_SUMMARY.md)
 
 ---
 
-**Repository:** https://github.com/MoorthyDurga/Perfint_Research  
-**Last Updated:** September 7, 2026  
+**Repository:** https://github.com/MoorthyDurga/Perfint_Research
+**Last Updated:** September 7, 2026
 **Status:** Active Research in Progress

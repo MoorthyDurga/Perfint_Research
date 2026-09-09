@@ -1,7 +1,7 @@
 # Baseline Model Selection: Vertebral Segmentation & Labeling
 
-**Version:** 1.0  
-**Date:** September 7, 2026  
+**Version:** 1.0
+**Date:** September 7, 2026
 **Status:** FINAL DECISION
 
 ---
@@ -13,7 +13,7 @@ After comprehensive literature review, dataset benchmarking, and architecture ev
 | Component | Selection | Rationale |
 |-----------|-----------|-----------|
 | **Framework** | MONAI + PyTorch | Comprehensive medical imaging support + good documentation |
-| **Architecture** | 3D U-Net (initial) → nnU-Net (comparison) → Swin UNETR (optional) | Progressive complexity; benchmark against SOTA |
+| **Architecture** | 3D U-Net (initial) ? nnU-Net (comparison) ? Swin UNETR (optional) | Progressive complexity; benchmark against SOTA |
 | **Primary Dataset** | VerSe 2020 | Community standard; per-vertebra labels; pathology included |
 | **Secondary Dataset** | CTSpine1K (pretraining) | Scale for transfer learning; proven effectiveness |
 | **Validation Dataset** | SPIDER | Cross-validation; domain robustness testing |
@@ -52,7 +52,7 @@ After comprehensive literature review, dataset benchmarking, and architecture ev
 - MONAI preferred for **research project** (need flexibility)
 - nnU-Net better for **production pipeline** (zero tuning)
 
-**For this project:** Research-first approach → MONAI is better choice
+**For this project:** Research-first approach -> MONAI is better choice
 
 ### 1.3 MONAI Setup
 
@@ -109,7 +109,7 @@ print("3D U-Net import successful")
 - Dice > 0.88 on VerSe test set
 - Training convergence without instability
 - Inference time < 60 seconds per volume
-- Reproducible results (same seed → same output)
+- Reproducible results (same seed ? same output)
 
 ---
 
@@ -133,12 +133,12 @@ print("3D U-Net import successful")
 
 **Performance expectation:**
 ```
-Phase 1 (3D U-Net):    Dice ≈ 0.90-0.92
-Phase 2 (nnU-Net):     Dice ≈ 0.93-0.94
+Phase 1 (3D U-Net):    Dice ? 0.90-0.92
+Phase 2 (nnU-Net):     Dice ? 0.93-0.94
 Expected gap:          1-2%
 
 If gap > 5%:  Indicates suboptimal Phase 1 implementation
-If gap ≈ 1-2%: Indicates solid baseline; gap is architectural
+If gap ? 1-2%: Indicates solid baseline; gap is architectural
 ```
 
 ---
@@ -148,15 +148,15 @@ If gap ≈ 1-2%: Indicates solid baseline; gap is architectural
 **Selection:** Swin UNETR (if pursuing interpretability or SOTA accuracy)
 
 **When to pursue Phase 3:**
-- ✓ If Phase 1-2 successful and on schedule
-- ✓ If interpretability important for publication/presentation
-- ✓ If computational resources allow extended experimentation
-- ✓ If maximum accuracy desired for clinical application
+- [OK] If Phase 1-2 successful and on schedule
+- [OK] If interpretability important for publication/presentation
+- [OK] If computational resources allow extended experimentation
+- [OK] If maximum accuracy desired for clinical application
 
 **When NOT to pursue Phase 3:**
-- ✗ If Phase 1-2 already consuming intended timeline
-- ✗ If GPU resources limited
-- ✗ If Phase 1-2 results satisfactory for objectives
+- [OK] If Phase 1-2 already consuming intended timeline
+- [OK] If GPU resources limited
+- [OK] If Phase 1-2 results satisfactory for objectives
 
 **Phase 3 success criteria:**
 - Swin UNETR achieves Dice 0.93+ (matches or exceeds nnU-Net)
@@ -203,23 +203,23 @@ If gap ≈ 1-2%: Indicates solid baseline; gap is architectural
 
 ```
 Step 1: Pretrain model on CTSpine1K
-        └→ Learns general spine anatomy
-        └→ Binary spine segmentation (all vertebrae as one class)
-        └→ Training time: ~40-60 GPU hours
+        ?? Learns general spine anatomy
+        ?? Binary spine segmentation (all vertebrae as one class)
+        ?? Training time: ~40-60 GPU hours
 
 Step 2: Fine-tune on VerSe
-        └→ Learns per-vertebra discrimination
-        └→ Adapt output layer: 1 class → 26 classes
-        └→ Training time: ~20-40 GPU hours
+        ?? Learns per-vertebra discrimination
+        ?? Adapt output layer: 1 class ? 26 classes
+        ?? Training time: ~20-40 GPU hours
 
 Step 3: Evaluate on VerSe test set
-        └→ Compare vs VerSe-only training
-        └→ Expected improvement: +1-2% Dice
+        ?? Compare vs VerSe-only training
+        ?? Expected improvement: +1-2% Dice
 ```
 
 **Performance expectation:**
-- VerSe-only training: Dice ≈ 0.92
-- CTSpine1K pretrain + VerSe fine-tune: Dice ≈ 0.93-0.94
+- VerSe-only training: Dice ? 0.92
+- CTSpine1K pretrain + VerSe fine-tune: Dice ? 0.93-0.94
 - Improvement: ~1-2% Dice
 
 **Why CTSpine1K for pretraining?**
@@ -241,15 +241,15 @@ Step 3: Evaluate on VerSe test set
 Step 1: Train model on VerSe
 Step 2: Evaluate on SPIDER (without any SPIDER training)
 Step 3: Measure domain shift
-        └→ Expected Dice: 0.87-0.92 (acceptable 2-5% drop)
-        └→ If drop > 10%: model overfits to VerSe protocol
+        ?? Expected Dice: 0.87-0.92 (acceptable 2-5% drop)
+        ?? If drop > 10%: model overfits to VerSe protocol
 ```
 
 **Why SPIDER for validation?**
 1. **Independent data:** Different imaging institution and protocols
 2. **Cross-validation:** Tests generalization to unseen domains
 3. **Established use:** Standard cross-validation benchmark
-4. **Realistic challenge:** Different scanner → different intensity distribution
+4. **Realistic challenge:** Different scanner ? different intensity distribution
 5. **Clinical relevance:** Proves model works in practice
 
 **Success criteria:**
@@ -291,7 +291,7 @@ For each voxel in CT volume:
 
 ```python
 # Pseudocode
-loss = 0.7 * dice_loss(predictions, targets) + 
+loss = 0.7 * dice_loss(predictions, targets) +
        0.3 * cross_entropy_loss(predictions, targets)
 ```
 
@@ -303,7 +303,7 @@ loss = 0.7 * dice_loss(predictions, targets) +
 **Alternative loss (if class imbalance problematic):**
 
 ```python
-loss = 0.7 * weighted_dice_loss(predictions, targets, weights=class_weights) + 
+loss = 0.7 * weighted_dice_loss(predictions, targets, weights=class_weights) +
        0.3 * focal_loss(predictions, targets, alpha=2.0)
 ```
 
@@ -318,51 +318,51 @@ Where `class_weights` account for vertebra frequency (L5 less common due to tran
 def sliding_window_inference(ct_volume, model, patch_size=96, overlap=0.5):
     """
     Process large volume with overlapping patches.
-    
+
     Args:
         ct_volume: (H, W, D) 3D CT array
         model: Trained segmentation network
-        patch_size: 96 (96³ patches)
+        patch_size: 96 (96? patches)
         overlap: 0.5 (50% overlap between patches)
-    
+
     Returns:
         segmentation: (H, W, D) predicted labels
     """
     output = np.zeros(ct_volume.shape, dtype=np.int32)
     counts = np.zeros(ct_volume.shape, dtype=np.float32)
-    
+
     # Generate sliding window patches
     for i in range(0, H, patch_size // 2):  # 50% stride
         for j in range(0, W, patch_size // 2):
             for k in range(0, D, patch_size // 2):
                 # Extract patch
                 patch = ct_volume[i:i+patch_size, j:j+patch_size, k:k+patch_size]
-                
+
                 # Pad if at boundary
                 if patch.shape != (patch_size, patch_size, patch_size):
                     patch = np.pad(patch, ...)  # Pad to size
-                
+
                 # Run inference
                 with torch.no_grad():
                     pred = model(torch.tensor(patch).unsqueeze(0))  # (1, 26, 96, 96, 96)
                     pred = torch.argmax(pred, dim=1)  # (1, 96, 96, 96)
-                
+
                 # Accumulate predictions (average overlapping regions)
                 output[i:i+patch_size, j:j+patch_size, k:k+patch_size] += pred[0].numpy()
                 counts[i:i+patch_size, j:j+patch_size, k:k+patch_size] += 1
-    
+
     # Average overlapping regions
     output = output / (counts + 1e-8)
     return output.astype(np.uint8)
 ```
 
 **Advantages:**
-- ✓ Handles arbitrary volume sizes (not limited to patch size)
-- ✓ Smooth predictions in overlap regions (averaging)
-- ✓ Memory-efficient (processes patches sequentially)
+- [OK] Handles arbitrary volume sizes (not limited to patch size)
+- [OK] Smooth predictions in overlap regions (averaging)
+- [OK] Memory-efficient (processes patches sequentially)
 
 **Typical parameters:**
-- Patch size: 96³ (balance between context and memory)
+- Patch size: 96? (balance between context and memory)
 - Overlap: 50% (sufficient smoothing; not wasteful)
 - Inference time: ~20-40 seconds per volume (GPU)
 
@@ -399,11 +399,11 @@ If predicted class = 24:
 - Mitigation: Include in training data (VerSe does); model learns variation
 
 **Challenge 2: Incorrect sequential ordering (scoliosis)**
-- Severe scoliosis → superior-to-inferior z-ordering breaks
+- Severe scoliosis ? superior-to-inferior z-ordering breaks
 - Mitigation: Multi-class inherently captures all 26 classes regardless of ordering
 
 **Challenge 3: Missing vertebrae (fusion or congenital)**
-- Vertebra missing → labeling sequence breaks
+- Vertebra missing ? labeling sequence breaks
 - Mitigation: Multi-class framework handles missing classes (doesn't assume continuity)
 
 **Challenge 4: Partial field-of-view**
@@ -418,7 +418,7 @@ If predicted class = 24:
 def enforce_anatomical_ordering(segmentation):
     """
     Post-process to ensure anatomical plausibility.
-    
+
     1. Extract connected components per class
     2. Check if components are ordered superior-to-inferior
     3. Resolve conflicts (if two C1s, keep superior; remove inferior)
@@ -430,10 +430,10 @@ def enforce_anatomical_ordering(segmentation):
         mask = segmentation == class_id
         if mask.any():
             centroids[class_id] = centroid(mask)
-    
+
     # Check ordering
     z_coords = [centroids[c][2] for c in centroids if c in centroids]
-    
+
     # If misordered (e.g., scoliosis), output confidence warning
     return segmentation, confidence_score
 ```
@@ -448,7 +448,7 @@ def enforce_anatomical_ordering(segmentation):
 
 **Dice coefficient:**
 ```
-Dice = 2|X ∩ Y| / (|X| + |Y|)
+Dice = 2|X ? Y| / (|X| + |Y|)
 
 Interpretation:
   0.95+: Excellent
@@ -466,12 +466,12 @@ C3: 0.91
 ...
 L5: 0.87  (typically lower)
 
-Mean Dice: 0.91 ± 0.02
+Mean Dice: 0.91 ? 0.02
 ```
 
 **Intersection over Union (IoU):**
 ```
-IoU = |X ∩ Y| / |X ∪ Y|
+IoU = |X ? Y| / |X ? Y|
 
 Relationship: IoU = Dice / (2 - Dice)
 ```
@@ -484,7 +484,7 @@ Both Dice and IoU reported for completeness.
 
 **Hausdorff Distance (HD):**
 ```
-HD = max(max_{x ∈ X} d(x, Y), max_{y ∈ Y} d(y, X))
+HD = max(max_{x ? X} d(x, Y), max_{y ? Y} d(y, X))
 
 Interpretation: Maximum boundary error (worst-case)
 Units: Millimeters
@@ -496,7 +496,7 @@ Solution: Report 95th percentile instead of max
 
 **Average Surface Distance (ASD):**
 ```
-ASD = (1/|S_X|) Σ_{x ∈ S_X} d(x, S_Y)
+ASD = (1/|S_X|) ?_{x ? S_X} d(x, S_Y)
 
 Interpretation: Average boundary error
 Units: Millimeters
@@ -580,7 +580,7 @@ More robust than Hausdorff
 | Training stability | No divergence | - | PENDING |
 | Inference speed | <60 sec/volume | - | PENDING |
 | Code documentation | >80% docstrings | - | PENDING |
-| Reproducibility | Same seed → same result | - | PENDING |
+| Reproducibility | Same seed ? same result | - | PENDING |
 
 ### 8.2 Phase 2 (nnU-Net) Success Criteria
 
@@ -589,13 +589,13 @@ More robust than Hausdorff
 | Dice (VerSe test) | 0.93-0.94 | - | PENDING |
 | Performance gap (vs 3D U-Net) | <3% | - | PENDING |
 | Cross-validation stability | Low variance | - | PENDING |
-| Validates implementation quality | Gap ≈ 1-2% | - | PENDING |
+| Validates implementation quality | Gap ? 1-2% | - | PENDING |
 
 ### 8.3 Phase 3 (Swin UNETR) Success Criteria (Optional)
 
 | Criterion | Target | Actual | Status |
 |-----------|--------|--------|--------|
-| Dice (VerSe test) | ≥0.93 | - | PENDING |
+| Dice (VerSe test) | ?0.93 | - | PENDING |
 | Attention interpretability | Visualizable | - | PENDING |
 | Cross-dataset Dice (SPIDER) | >0.88 | - | PENDING |
 
@@ -604,23 +604,23 @@ More robust than Hausdorff
 ## 9. Known Risks & Mitigation
 
 ### Risk 1: Dataset Access Issues
-**Likelihood:** Low (VerSe public)  
+**Likelihood:** Low (VerSe public)
 **Mitigation:** Document download process; have backup datasets identified (CTSpine1K)
 
 ### Risk 2: GPU Memory Insufficient
-**Likelihood:** Medium (depends on hardware)  
+**Likelihood:** Medium (depends on hardware)
 **Mitigation:** Reduce batch size or patch size; use gradient checkpointing
 
 ### Risk 3: Training Instability / Divergence
-**Likelihood:** Low (mature architecture)  
+**Likelihood:** Low (mature architecture)
 **Mitigation:** Monitor loss curves; adjust learning rate or batch norm momentum
 
 ### Risk 4: Overfitting to VerSe
-**Likelihood:** Medium (dataset relatively small)  
+**Likelihood:** Medium (dataset relatively small)
 **Mitigation:** Use augmentation heavily; validate on SPIDER; consider pretraining on CTSpine1K
 
 ### Risk 5: Pathological Cases (Fractures, Severe Degeneration)
-**Likelihood:** High (present in VerSe)  
+**Likelihood:** High (present in VerSe)
 **Mitigation:** Analyze per-case performance; document failure modes; plan targeted improvements
 
 ---
@@ -660,17 +660,17 @@ More robust than Hausdorff
 
 This baseline selection represents a well-motivated, evidence-based approach to CT vertebral segmentation combining:
 
-✓ **Research flexibility** (MONAI framework)  
-✓ **Strong baseline performance** (3D U-Net → nnU-Net → Swin UNETR progression)  
-✓ **Community standards** (VerSe benchmark; multi-class approach)  
-✓ **Realistic timeline** (clear phases with deliverables)  
-✓ **Publication readiness** (nnU-Net reference; reproducible results)  
+- **Research flexibility** (MONAI framework)
+- **Strong baseline performance** (3D U-Net -> nnU-Net ? Swin UNETR progression)
+- **Community standards** (VerSe benchmark; multi-class approach)
+- **Realistic timeline** (clear phases with deliverables)
+- **Publication readiness** (nnU-Net reference; reproducible results)
 
 Implementation proceeds with confidence that the selected approach is sound, well-researched, and positioned to achieve strong baseline results while maintaining flexibility for research innovations.
 
 ---
 
-**Decision made:** September 7, 2026  
-**Status:** APPROVED - Ready for implementation  
-**Next milestone:** Environment setup + Phase 1 training begins  
+**Decision made:** September 7, 2026
+**Status:** APPROVED - Ready for implementation
+**Next milestone:** Environment setup + Phase 1 training begins
 **Target completion:** Week 3-4 (baseline results)

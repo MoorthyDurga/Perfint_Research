@@ -1,7 +1,7 @@
 # Instrument Taxonomy for Surgical Navigation
 
-**Version:** 1.0  
-**Date:** September 7, 2026  
+**Version:** 1.0
+**Date:** September 7, 2026
 **Scope:** Classification and tracking requirements for surgical navigation instruments
 
 ---
@@ -182,7 +182,7 @@
 
 **Performance:**
 - Control latency: <10ms (critical for safety)
-- Position repeatability: ±0.5mm
+- Position repeatability: ?0.5mm
 - Force feedback: Real-time haptic cues
 
 ---
@@ -196,7 +196,7 @@
 Required tracking:
   - 3D position of probe tip (X, Y, Z)
   - Probe orientation/direction
-  - Accuracy: ±1-2mm
+  - Accuracy: ?1-2mm
   - Update rate: 30Hz+
   - Timestamp: Synchronized with imaging
 ```
@@ -207,7 +207,7 @@ Required tracking:
   - Position of tool tip
   - Orientation of screw axis
   - Depth insertion (if encoders available)
-  - Accuracy: ±1mm essential (screw size ~4-5mm)
+  - Accuracy: ?1mm essential (screw size ~4-5mm)
   - Update rate: Real-time (60Hz)
 ```
 
@@ -217,7 +217,7 @@ Required tracking:
   - Position of guide opening
   - Orientation of drill axis
   - Depth counter
-  - Accuracy: ±0.5mm (built into robot)
+  - Accuracy: ?0.5mm (built into robot)
   - Update rate: Real-time (robot control)
   - Force feedback: Detect resistance/collision
 ```
@@ -228,7 +228,7 @@ Required tracking:
   - C-arm orientation/position
   - Source-to-detector distance
   - Enables overlay of CT on fluoro image
-  - Accuracy: ±2-3mm acceptable
+  - Accuracy: ?2-3mm acceptable
   - Update rate: Real-time if integrated
 ```
 
@@ -257,7 +257,7 @@ Required tracking:
 - Reference frames (many)
 
 **Sterilization method:**
-- Autoclave (steam): 121°C, 15 min (most common)
+- Autoclave (steam): 121?C, 15 min (most common)
 - Ethylene oxide (ETO): For heat-sensitive components
 - Liquid chemical sterilization: Glutaraldehyde (slower; for complex instruments)
 
@@ -290,10 +290,10 @@ For pointer/probe:
   2. Navigate system records position
   3. Verify software shows correct coordinates
   4. Repeat at multiple points to verify accuracy
-  
+
 For drill guide:
   1. Mount guide to robotic arm
-  2. Define relationship: guide opening → robot coordinates
+  2. Define relationship: guide opening ? robot coordinates
   3. Verify by positioning guide at known location
   4. Test angle/depth sensors if available
 
@@ -440,6 +440,6 @@ The key insight: **Vertebral segmentation/labeling supports all these instrument
 
 ---
 
-**Document prepared:** September 7, 2026  
-**Status:** Instrument taxonomy complete  
+**Document prepared:** September 7, 2026
+**Status:** Instrument taxonomy complete
 **Next step:** Opportunity matrix + final project summary
