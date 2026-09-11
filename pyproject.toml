@@ -80,7 +80,7 @@ project1_vertebra_segmentation = [
 [tool.black]
 line-length = 100
 target-version = ["py39", "py310"]
-include = '\.pyi?$'
+include = '\.pyi$'
 extend-exclude = '''
 /(
   # directories

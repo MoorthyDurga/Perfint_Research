@@ -26,23 +26,23 @@ Current state-of-the-art for CT vertebral segmentation achieves Dice 0.93-0.945 
 
 **Architecture:**
 ```
-Input 3D patch (128? or 64?)
-    ?
+Input 3D patch (128 or 64)
+    
 Encoder (downsampling)
-  Level 1: Conv(16) ? pool
-  Level 2: Conv(32) ? pool
-  Level 3: Conv(64) ? pool [bottleneck]
-    ?
+  Level 1: Conv(16)  pool
+  Level 2: Conv(32)  pool
+  Level 3: Conv(64)  pool [bottleneck]
+    
 Decoder (upsampling)
-  Level 3: Upsample ? concat encoder_L3 ? Conv(64)
-  Level 2: Upsample ? concat encoder_L2 ? Conv(32)
-  Level 1: Upsample ? concat encoder_L1 ? Conv(16)
-    ?
+  Level 3: Upsample  concat encoder_L3  Conv(64)
+  Level 2: Upsample  concat encoder_L2  Conv(32)
+  Level 1: Upsample  concat encoder_L1  Conv(16)
+    
 Output: Per-voxel class logits (26 classes for VerSe)
 ```
 
 **Hyperparameter ranges:**
-- Patch size: 64? to 192? (GPU memory dependent)
+- Patch size: 64 to 192 (GPU memory dependent)
 - Channels: 16-32 base
 - Depth: 3-5 pyramid levels
 - Dropout: 0.1-0.5 (for regularization)
@@ -107,7 +107,7 @@ Output: Per-voxel class logits (26 classes for VerSe)
 2. **Channel counts:** Scales dynamically with depth
 3. **Depth:** Computed from desired receptive field
 4. **Batch size:** Limited by GPU memory
-5. **Training schedule:** Based on dataset size (more data ? more epochs)
+5. **Training schedule:** Based on dataset size (more data  more epochs)
 6. **Preprocessing:** Automatic HU windowing, resampling, cropping
 7. **Augmentation:** Medical imaging-specific (spatial + intensity)
 
@@ -135,7 +135,7 @@ Output: Per-voxel class logits (26 classes for VerSe)
 
 **Advantages:**
 - [OK] Zero hyperparameter tuning (fully automatic)
-- [OK] Reproducible (same input ? same architecture ? same performance)
+- [OK] Reproducible (same input  same architecture  same performance)
 - [OK] Generalizes across domains (works on diverse medical imaging tasks)
 - [OK] Efficient preprocessing (reduces training time)
 - [OK] Ensemble predictions (more robust than single model)
@@ -173,22 +173,22 @@ nnUNet_predict -i input_folder -o output_folder -t Task01_VerSe -m 3d_fullres
 
 **Architecture:**
 ```
-Input volume (e.g., 96?)
-    ?
+Input volume (e.g., 96)
+    
 Patch embedding
-  - Divide into 16? patches
+  - Divide into 16 patches
   - Project each patch to embedding dimension (e.g., 768)
-    ?
+    
 Transformer encoder (12-24 layers)
   - Multi-head self-attention (8-12 heads)
   - Feed-forward networks
   - Positional embeddings (learned or fixed)
-    ?
+    
 Hybrid decoder (CNN + transformer features)
   - Upsample embeddings
   - Concatenate with skip connections from transformer layers
   - CNN convolutions for refinement
-    ?
+    
 Output: Per-voxel class predictions
 ```
 
@@ -196,7 +196,7 @@ Output: Per-voxel class predictions
 - **Self-attention:** Each voxel can attend to ALL other voxels in volume
 - **Long-range context:** Captures global anatomical structure
 - **Interpretability:** Attention weights show which regions influenced predictions
-- **Computational cost:** O(n?) complexity for self-attention (n = number of patches)
+- **Computational cost:** O(n) complexity for self-attention (n = number of patches)
 
 **Performance on VerSe:**
 - Dice: 0.92-0.94 (competitive with nnU-Net)
@@ -217,7 +217,7 @@ Output: Per-voxel class predictions
 **Limitations:**
 - [OK] Higher GPU memory requirements
 - [OK] Slower training and inference than 3D U-Net
-- [OK] O(n?) complexity limits scalability
+- [OK] O(n) complexity limits scalability
 - [OK] May require larger dataset for optimal performance
 - [OK] Attention can be noisy (requires careful analysis)
 
@@ -240,21 +240,21 @@ Output: Per-voxel class predictions
 
 **Architecture:**
 ```
-Input volume (e.g., 96?)
-    ?
+Input volume (e.g., 96)
+    
 Patch embedding + windowing
-    ?
+    
 Swin transformer encoder (hierarchical windows)
-  - Local window attention (7? typical window)
+  - Local window attention (7 typical window)
   - Shifted windows between layers (cross-window communication)
   - Hierarchical pyramid levels
-    ?
+    
 Hybrid decoder + skip connections
-    ?
+    
 Output: Per-voxel predictions
 ```
 
-**Key property:** Window-based attention reduces complexity from O(n?) to O(n)
+**Key property:** Window-based attention reduces complexity from O(n) to O(n)
 
 **Performance:**
 - Dice: 0.92-0.94 (similar accuracy to UNETR)
@@ -476,7 +476,7 @@ Step 4: Expected improvement: +1-2% Dice over VerSe-only training
 - Working training pipeline
 - Baseline results on VerSe test set
 - Evaluation metrics (per-vertebra Dice, Hausdorff distance)
-- Error analysis (which vertebrae are hardest?)
+- Error analysis (which vertebrae are hardest)
 
 **Success criteria:** Dice >0.88 on VerSe test set (indicates correct implementation)
 
@@ -494,10 +494,10 @@ Step 4: Expected improvement: +1-2% Dice over VerSe-only training
 **Comparison approach:**
 ```
 nnU-Net Dice (0.93-0.94) - 3D U-Net Dice (0.90-0.92)
-= Performance gap ? 1-4%
+= Performance gap  1-4%
 
 If gap > 5%: indicates suboptimal 3D U-Net implementation
-If gap ? 1-4%: indicates solid 3D U-Net baseline
+If gap  1-4%: indicates solid 3D U-Net baseline
 ```
 
 **Deliverables:**
@@ -635,9 +635,9 @@ This three-phase approach enables:
 Expected progression:
 ```
 Week 1-2: 3D U-Net baseline (Dice ~0.90)
-    ?
+    
 Week 3: nnU-Net benchmark (Dice ~0.93)
-    ?
+    
 Week 4-6: Swin UNETR or ensemble (Dice ~0.93-0.94)
 ```
 

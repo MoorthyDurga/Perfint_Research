@@ -108,11 +108,11 @@ MONAI (Medical Open Network for AI) evaluated as core framework:
 
 | Model | Segmentation | Instance Separation | Labeling Support | Pretrained | MONAI | Suitability |
 |---|---|---|---|---|---|---|
-| 3D U-Net | ? Direct | ? Post-process | ? Sequential | ? None | ? Native | High - baseline |
-| nnU-Net | ? Optimal | ? Best | ? Sequential | ? Available | ? Wrapper | High - reproducible |
-| UNETR | ? Strong | ? Good | ? Compatible | ? Available | ? Native | High - transformer |
-| Swin UNETR | ? SOTA | ? Excellent | ? Compatible | ? Available | ? Native | Medium - GPU intensive |
-| TotalSegmentator | ? Multi-organ | ? Class-based | ? Not designed | ? Pretrained | ? Available | High - pretraining |
+| 3D U-Net |  Direct |  Post-process |  Sequential |  None |  Native | High - baseline |
+| nnU-Net |  Optimal |  Best |  Sequential |  Available |  Wrapper | High - reproducible |
+| UNETR |  Strong |  Good |  Compatible |  Available |  Native | High - transformer |
+| Swin UNETR |  SOTA |  Excellent |  Compatible |  Available |  Native | Medium - GPU intensive |
+| TotalSegmentator |  Multi-organ |  Class-based |  Not designed |  Pretrained |  Available | High - pretraining |
 
 **Model comparison:** [project1_vertebra_segmentation/models/model_comparison.csv](project1_vertebra_segmentation/models/model_comparison.csv)
 
@@ -195,7 +195,7 @@ pip install -r requirements.txt
 
 ### 1.7 Key Research Insights
 
-1. **Segmentation ? Labeling:** Most papers conflate these subtasks; separate ordinal regression for labeling is critical
+1. **Segmentation  Labeling:** Most papers conflate these subtasks; separate ordinal regression for labeling is critical
 2. **Instance separation matters:** Even multi-class segmentation can produce non-contiguous regions requiring post-processing
 3. **Pathological robustness is open:** Severe degeneration, scoliosis, transitional vertebrae still pose challenges
 4. **Pretraining potential:** TotalSegmentator pretrained backbone could accelerate convergence
@@ -205,10 +205,10 @@ pip install -r requirements.txt
 ### 1.8 Open Questions & Technical Risks
 
 **Open questions:**
-- How to handle transitional vertebrae (L5 sacralization) robustly?
-- Can single model handle multiple pathologies or do we need pathology-specific branches?
-- What is cross-dataset generalization performance (trained on VerSe, tested on CTSpine1K)?
-- How to detect and handle metal artifacts from prior instrumentation?
+- How to handle transitional vertebrae (L5 sacralization) robustly
+- Can single model handle multiple pathologies or do we need pathology-specific branches
+- What is cross-dataset generalization performance (trained on VerSe, tested on CTSpine1K)
+- How to detect and handle metal artifacts from prior instrumentation
 
 **Technical risks:**
 | Risk | Likelihood | Impact | Mitigation |
@@ -372,7 +372,7 @@ pip install -r requirements.txt
 
 ---
 
-## Strategic Opportunities: Project 1 ? Project 2 Integration
+## Strategic Opportunities: Project 1  Project 2 Integration
 
 ### Opportunity 1: Automated Vertebral Segmentation as Planning Input
 **Problem:** Manual vertebra identification in surgical planning is time-consuming
@@ -460,47 +460,47 @@ pip install -r requirements.txt
 ### Project 1 Success Criteria
 | Metric | Target | Current | Status |
 |---|---|---|---|
-| Literature papers reviewed | 15-25 | 25 | ? Complete |
-| Datasets evaluated | 3+ | 4 | ? Complete |
-| Baseline model architecture selected | TBD | 3D U-Net | ? Complete |
-| Development environment working | Yes | Yes (spec ready) | ? Ready |
-| Baseline segmentation Dice | >0.88 | Expected 0.90-0.93 | ? In training |
-| Labeling accuracy | >93% | Expected 94-96% | ? In training |
-| Inference time <10s/volume | Yes | TBD | ? Pending |
-| Cross-dataset transfer analysis | Complete | Planned | ? Pending |
+| Literature papers reviewed | 15-25 | 25 |  Complete |
+| Datasets evaluated | 3+ | 4 |  Complete |
+| Baseline model architecture selected | TBD | 3D U-Net |  Complete |
+| Development environment working | Yes | Yes (spec ready) |  Ready |
+| Baseline segmentation Dice | >0.88 | Expected 0.90-0.93 |  In training |
+| Labeling accuracy | >93% | Expected 94-96% |  In training |
+| Inference time <10s/volume | Yes | TBD |  Pending |
+| Cross-dataset transfer analysis | Complete | Planned |  Pending |
 
 ### Project 2 Success Criteria
 | Metric | Target | Current | Status |
 |---|---|---|---|
-| Competitor systems analyzed | 5+ | 5 | ? Complete |
-| Workflow stages mapped | 8-12 | 11 | ? Complete |
-| Instrument categories | 4-5 | 5 | ? Complete |
-| Competitive differentiators identified | 4+ | 5+ | ? Complete |
-| Strategic opportunities documented | 3+ | 5 | ? Complete |
-| Technical risks analysis | Complete | In progress | ? Pending |
+| Competitor systems analyzed | 5+ | 5 |  Complete |
+| Workflow stages mapped | 8-12 | 11 |  Complete |
+| Instrument categories | 4-5 | 5 |  Complete |
+| Competitive differentiators identified | 4+ | 5+ |  Complete |
+| Strategic opportunities documented | 3+ | 5 |  Complete |
+| Technical risks analysis | Complete | In progress |  Pending |
 
 ---
 
 ## Questions for Advisor
 
-1. **Dataset access:** Do we have institutional access to CTSpine1K or should we focus exclusively on VerSe for initial work?
+1. **Dataset access:** Do we have institutional access to CTSpine1K or should we focus exclusively on VerSe for initial work
 
-2. **Pathological focus:** Should we prioritize pathological robustness (fractures, degeneration, scoliosis) early or establish clean baseline first?
+2. **Pathological focus:** Should we prioritize pathological robustness (fractures, degeneration, scoliosis) early or establish clean baseline first
 
-3. **Architecture selection:** Is the 3D U-Net baseline appropriate, or do you recommend starting with nnU-Net for reproducibility?
+3. **Architecture selection:** Is the 3D U-Net baseline appropriate, or do you recommend starting with nnU-Net for reproducibility
 
-4. **Clinical validation:** Do you have access to clinical datasets or collaborators for validation beyond public benchmarks?
+4. **Clinical validation:** Do you have access to clinical datasets or collaborators for validation beyond public benchmarks
 
-5. **Competitive integration:** Are there specific navigation system partnerships or industrial collaborations to consider for Project 2 integration?
+5. **Competitive integration:** Are there specific navigation system partnerships or industrial collaborations to consider for Project 2 integration
 
-6. **Publication strategy:** Should we target single comprehensive paper (segmentation + labeling + benchmarking) or separate papers per topic?
+6. **Publication strategy:** Should we target single comprehensive paper (segmentation + labeling + benchmarking) or separate papers per topic
 
 ---
 
 ## Timeline & Resource Requirements
 
 **Estimated timeline to results:**
-- **Phase 1 (2 weeks):** Complete implementation, baseline training ? We are here
+- **Phase 1 (2 weeks):** Complete implementation, baseline training  We are here
 - **Phase 2 (2 weeks):** Architecture comparisons, cross-dataset evaluation
 - **Phase 3 (1-2 weeks):** Pathological robustness, refinement
 - **Phase 4 (1 week):** Results synthesis, paper drafting

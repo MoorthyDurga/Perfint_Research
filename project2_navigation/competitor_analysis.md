@@ -304,7 +304,7 @@ Postoperative
 
 ```
 Preoperative
-  1. Acquire CT ? fluoro scout
+  1. Acquire CT  fluoro scout
   2. Load in Stryker planning station
   3. Segment spine, plan trajectories
 

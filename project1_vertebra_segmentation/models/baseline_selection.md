@@ -13,7 +13,7 @@ After comprehensive literature review, dataset benchmarking, and architecture ev
 | Component | Selection | Rationale |
 |-----------|-----------|-----------|
 | **Framework** | MONAI + PyTorch | Comprehensive medical imaging support + good documentation |
-| **Architecture** | 3D U-Net (initial) ? nnU-Net (comparison) ? Swin UNETR (optional) | Progressive complexity; benchmark against SOTA |
+| **Architecture** | 3D U-Net (initial)  nnU-Net (comparison)  Swin UNETR (optional) | Progressive complexity; benchmark against SOTA |
 | **Primary Dataset** | VerSe 2020 | Community standard; per-vertebra labels; pathology included |
 | **Secondary Dataset** | CTSpine1K (pretraining) | Scale for transfer learning; proven effectiveness |
 | **Validation Dataset** | SPIDER | Cross-validation; domain robustness testing |
@@ -86,7 +86,7 @@ print("3D U-Net import successful")
 
 **Selection:** 3D U-Net (MONAI implementation)
 
-**Why this architecture?**
+**Why this architecture**
 
 1. **Simplicity:** Easy to understand, debug, and modify
 2. **Performance:** Achieves Dice 0.90-0.92 (good baseline)
@@ -95,7 +95,7 @@ print("3D U-Net import successful")
 5. **Moderate compute:** Requires ~6-8GB GPU (accessible)
 6. **Research flexibility:** Easy to customize for variations
 
-**Why NOT other Phase 1 candidates?**
+**Why NOT other Phase 1 candidates**
 
 | Architecture | Why not selected |
 |----------|----------|
@@ -109,7 +109,7 @@ print("3D U-Net import successful")
 - Dice > 0.88 on VerSe test set
 - Training convergence without instability
 - Inference time < 60 seconds per volume
-- Reproducible results (same seed ? same output)
+- Reproducible results (same seed  same output)
 
 ---
 
@@ -117,7 +117,7 @@ print("3D U-Net import successful")
 
 **Selection:** nnU-Net (reference standard comparison)
 
-**Why nnU-Net for Phase 2?**
+**Why nnU-Net for Phase 2**
 
 1. **Validation:** Benchmarks Phase 1 implementation quality
 2. **SOTA performance:** Achieves Dice 0.93-0.94 (state-of-the-art)
@@ -133,12 +133,12 @@ print("3D U-Net import successful")
 
 **Performance expectation:**
 ```
-Phase 1 (3D U-Net):    Dice ? 0.90-0.92
-Phase 2 (nnU-Net):     Dice ? 0.93-0.94
+Phase 1 (3D U-Net):    Dice  0.90-0.92
+Phase 2 (nnU-Net):     Dice  0.93-0.94
 Expected gap:          1-2%
 
 If gap > 5%:  Indicates suboptimal Phase 1 implementation
-If gap ? 1-2%: Indicates solid baseline; gap is architectural
+If gap  1-2%: Indicates solid baseline; gap is architectural
 ```
 
 ---
@@ -171,7 +171,7 @@ If gap ? 1-2%: Indicates solid baseline; gap is architectural
 
 **Selection:** VerSe 2020 (580 CT volumes)
 
-**Why VerSe?**
+**Why VerSe**
 1. **Standard benchmark:** 50+ published results (enables direct comparison)
 2. **Per-vertebra labels:** Each vertebra individually annotated (enables vertebra-level metrics)
 3. **Pathology diversity:** Includes fractures, degeneration, scoliosis (realistic data)
@@ -179,7 +179,7 @@ If gap ? 1-2%: Indicates solid baseline; gap is architectural
 5. **Established splits:** Official train/val/test split (reproducible)
 6. **Easy access:** Free download after registration
 
-**Why NOT alternatives for primary?**
+**Why NOT alternatives for primary**
 
 | Dataset | Reason not selected as primary |
 |---------|------|
@@ -203,26 +203,26 @@ If gap ? 1-2%: Indicates solid baseline; gap is architectural
 
 ```
 Step 1: Pretrain model on CTSpine1K
-        ?? Learns general spine anatomy
-        ?? Binary spine segmentation (all vertebrae as one class)
-        ?? Training time: ~40-60 GPU hours
+         Learns general spine anatomy
+         Binary spine segmentation (all vertebrae as one class)
+         Training time: ~40-60 GPU hours
 
 Step 2: Fine-tune on VerSe
-        ?? Learns per-vertebra discrimination
-        ?? Adapt output layer: 1 class ? 26 classes
-        ?? Training time: ~20-40 GPU hours
+         Learns per-vertebra discrimination
+         Adapt output layer: 1 class  26 classes
+         Training time: ~20-40 GPU hours
 
 Step 3: Evaluate on VerSe test set
-        ?? Compare vs VerSe-only training
-        ?? Expected improvement: +1-2% Dice
+         Compare vs VerSe-only training
+         Expected improvement: +1-2% Dice
 ```
 
 **Performance expectation:**
-- VerSe-only training: Dice ? 0.92
-- CTSpine1K pretrain + VerSe fine-tune: Dice ? 0.93-0.94
+- VerSe-only training: Dice  0.92
+- CTSpine1K pretrain + VerSe fine-tune: Dice  0.93-0.94
 - Improvement: ~1-2% Dice
 
-**Why CTSpine1K for pretraining?**
+**Why CTSpine1K for pretraining**
 1. **Scale:** 1000 volumes (1.7x more than VerSe)
 2. **Diversity:** Different institutions and imaging protocols
 3. **Accessibility:** Public, no special access required
@@ -241,15 +241,15 @@ Step 3: Evaluate on VerSe test set
 Step 1: Train model on VerSe
 Step 2: Evaluate on SPIDER (without any SPIDER training)
 Step 3: Measure domain shift
-        ?? Expected Dice: 0.87-0.92 (acceptable 2-5% drop)
-        ?? If drop > 10%: model overfits to VerSe protocol
+         Expected Dice: 0.87-0.92 (acceptable 2-5% drop)
+         If drop > 10%: model overfits to VerSe protocol
 ```
 
-**Why SPIDER for validation?**
+**Why SPIDER for validation**
 1. **Independent data:** Different imaging institution and protocols
 2. **Cross-validation:** Tests generalization to unseen domains
 3. **Established use:** Standard cross-validation benchmark
-4. **Realistic challenge:** Different scanner ? different intensity distribution
+4. **Realistic challenge:** Different scanner  different intensity distribution
 5. **Clinical relevance:** Proves model works in practice
 
 **Success criteria:**
@@ -322,7 +322,7 @@ def sliding_window_inference(ct_volume, model, patch_size=96, overlap=0.5):
     Args:
         ct_volume: (H, W, D) 3D CT array
         model: Trained segmentation network
-        patch_size: 96 (96? patches)
+        patch_size: 96 (96 patches)
         overlap: 0.5 (50% overlap between patches)
 
     Returns:
@@ -362,7 +362,7 @@ def sliding_window_inference(ct_volume, model, patch_size=96, overlap=0.5):
 - [OK] Memory-efficient (processes patches sequentially)
 
 **Typical parameters:**
-- Patch size: 96? (balance between context and memory)
+- Patch size: 96 (balance between context and memory)
 - Overlap: 50% (sufficient smoothing; not wasteful)
 - Inference time: ~20-40 seconds per volume (GPU)
 
@@ -385,7 +385,7 @@ If predicted class = 24:
   => Vertebra L4 (lumbar 4)
 ```
 
-**Why this approach?**
+**Why this approach**
 1. **Simplicity:** No separate labeling network needed
 2. **Efficient:** Single forward pass provides both segmentation and labeling
 3. **Consistent:** Segmentation and labeling necessarily aligned
@@ -399,11 +399,11 @@ If predicted class = 24:
 - Mitigation: Include in training data (VerSe does); model learns variation
 
 **Challenge 2: Incorrect sequential ordering (scoliosis)**
-- Severe scoliosis ? superior-to-inferior z-ordering breaks
+- Severe scoliosis  superior-to-inferior z-ordering breaks
 - Mitigation: Multi-class inherently captures all 26 classes regardless of ordering
 
 **Challenge 3: Missing vertebrae (fusion or congenital)**
-- Vertebra missing ? labeling sequence breaks
+- Vertebra missing  labeling sequence breaks
 - Mitigation: Multi-class framework handles missing classes (doesn't assume continuity)
 
 **Challenge 4: Partial field-of-view**
@@ -448,7 +448,7 @@ def enforce_anatomical_ordering(segmentation):
 
 **Dice coefficient:**
 ```
-Dice = 2|X ? Y| / (|X| + |Y|)
+Dice = 2|X  Y| / (|X| + |Y|)
 
 Interpretation:
   0.95+: Excellent
@@ -466,12 +466,12 @@ C3: 0.91
 ...
 L5: 0.87  (typically lower)
 
-Mean Dice: 0.91 ? 0.02
+Mean Dice: 0.91  0.02
 ```
 
 **Intersection over Union (IoU):**
 ```
-IoU = |X ? Y| / |X ? Y|
+IoU = |X  Y| / |X  Y|
 
 Relationship: IoU = Dice / (2 - Dice)
 ```
@@ -484,7 +484,7 @@ Both Dice and IoU reported for completeness.
 
 **Hausdorff Distance (HD):**
 ```
-HD = max(max_{x ? X} d(x, Y), max_{y ? Y} d(y, X))
+HD = max(max_{x  X} d(x, Y), max_{y  Y} d(y, X))
 
 Interpretation: Maximum boundary error (worst-case)
 Units: Millimeters
@@ -496,7 +496,7 @@ Solution: Report 95th percentile instead of max
 
 **Average Surface Distance (ASD):**
 ```
-ASD = (1/|S_X|) ?_{x ? S_X} d(x, S_Y)
+ASD = (1/|S_X|) _{x  S_X} d(x, S_Y)
 
 Interpretation: Average boundary error
 Units: Millimeters
@@ -580,7 +580,7 @@ More robust than Hausdorff
 | Training stability | No divergence | - | PENDING |
 | Inference speed | <60 sec/volume | - | PENDING |
 | Code documentation | >80% docstrings | - | PENDING |
-| Reproducibility | Same seed ? same result | - | PENDING |
+| Reproducibility | Same seed  same result | - | PENDING |
 
 ### 8.2 Phase 2 (nnU-Net) Success Criteria
 
@@ -589,13 +589,13 @@ More robust than Hausdorff
 | Dice (VerSe test) | 0.93-0.94 | - | PENDING |
 | Performance gap (vs 3D U-Net) | <3% | - | PENDING |
 | Cross-validation stability | Low variance | - | PENDING |
-| Validates implementation quality | Gap ? 1-2% | - | PENDING |
+| Validates implementation quality | Gap  1-2% | - | PENDING |
 
 ### 8.3 Phase 3 (Swin UNETR) Success Criteria (Optional)
 
 | Criterion | Target | Actual | Status |
 |-----------|--------|--------|--------|
-| Dice (VerSe test) | ?0.93 | - | PENDING |
+| Dice (VerSe test) | 0.93 | - | PENDING |
 | Attention interpretability | Visualizable | - | PENDING |
 | Cross-dataset Dice (SPIDER) | >0.88 | - | PENDING |
 
@@ -636,20 +636,20 @@ More robust than Hausdorff
 
 ## 11. Decision Rationale Summary
 
-### Why MONAI + 3D U-Net?
+### Why MONAI + 3D U-Net
 1. **MONAI:** Flexibility for research + good medical imaging support
 2. **3D U-Net:** Best balance of simplicity, performance, and interpretability for initial baseline
 
-### Why VerSe + CTSpine1K?
+### Why VerSe + CTSpine1K
 1. **VerSe:** Community standard; per-vertebra labels; pathology included
 2. **CTSpike1K:** Proven pretraining boost; large scale
 
-### Why multi-class segmentation?
+### Why multi-class segmentation
 1. **Simplicity:** Single forward pass for both segmentation and labeling
 2. **Efficiency:** No separate labeling network needed
 3. **Standard:** Matches benchmark methodology
 
-### Why sliding-window inference?
+### Why sliding-window inference
 1. **Flexibility:** Handles arbitrary volume sizes
 2. **Efficiency:** Memory-effective; can process large volumes on modest GPUs
 3. **Quality:** Overlapping patches smooth predictions
@@ -661,7 +661,7 @@ More robust than Hausdorff
 This baseline selection represents a well-motivated, evidence-based approach to CT vertebral segmentation combining:
 
 - **Research flexibility** (MONAI framework)
-- **Strong baseline performance** (3D U-Net -> nnU-Net ? Swin UNETR progression)
+- **Strong baseline performance** (3D U-Net -> nnU-Net  Swin UNETR progression)
 - **Community standards** (VerSe benchmark; multi-class approach)
 - **Realistic timeline** (clear phases with deliverables)
 - **Publication readiness** (nnU-Net reference; reproducible results)

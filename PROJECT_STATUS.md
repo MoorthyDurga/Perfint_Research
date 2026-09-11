@@ -82,65 +82,65 @@ Established foundational research infrastructure for CT-based vertebral segmenta
 ## Repository Structure
 
 ```
-? README.md                              - Main project documentation
-? PROJECT_STATUS.md                      - This file
-? CHECKIN_SUMMARY.md                     - Executive check-in summary (60% complete)
-? ROADMAP.md                             - Development roadmap
-? requirements.txt                       - Python dependencies
-? environment.yml                        - Conda environment
-? pyproject.toml                         - Project configuration
-?
-? project1_vertebra_segmentation/        - Created
-  ? literature/
-    ? literature_review.md               - In progress (60%)
-    ? papers.csv                         - In progress (40%)
-    ? key_papers/                        - Planned
-  ? datasets/
-    ? dataset_registry.csv               - In progress (50%)
-    ? dataset_benchmark.md               - In progress (40%)
-    ? dataset_selection.md               - Planned
-  ? models/
-    ? model_benchmark.md                 - In progress (50%)
-    ? model_comparison.csv               - In progress (40%)
-    ? baseline_selection.md              - Pending
-  ? src/
-    ? preprocessing/                     - Planned
-    ? datasets/                          - Planned
-    ? models/                            - Planned
-    ? inference/                         - Planned
-    ? evaluation/                        - Planned
-    ? utils/                             - Planned
-  ? configs/                             - Planned
-  ? scripts/                             - Planned
-  ? notebooks/                           - Planned
-  ? results/                             - Planned
-  ? tests/                               - Planned
-?
-? project2_navigation/                   - Created
-  ? competitors/
-    ? stealthstation.md                  - In progress (60%)
-    ? globus_excelsius.md                - In progress (50%)
-    ? stryker.md                         - In progress (40%)
-    ? brainlab.md                        - In progress (40%)
-    ? 7d_surgical.md                     - In progress (30%)
-  ? competitor_matrix.csv                - Pending
-  ? competitor_analysis.md               - Planned
-  ? navigation_workflows.md              - Planned
-  ? instrument_taxonomy.md               - Planned
-  ? opportunity_matrix.csv               - Planned
-  ? figures/                             - Planned
-?
-? docs/                                  - Created
-  ? technical_architecture.md            - Planned
-  ? evaluation_protocol.md               - Planned
-  ? technical_risks.md                   - In progress
-  ? research_decisions.md                - In progress (50%)
-  ? experiment_roadmap.md                - Planned
-  ? two_week_progress.md                 - Pending
-  ? checkin_slides.md                    - Planned
-?
-? .github/                               - Created (for future CI/CD)
-? .gitignore                             - Configured
+ README.md                              - Main project documentation
+ PROJECT_STATUS.md                      - This file
+ CHECKIN_SUMMARY.md                     - Executive check-in summary (60% complete)
+ ROADMAP.md                             - Development roadmap
+ requirements.txt                       - Python dependencies
+ environment.yml                        - Conda environment
+ pyproject.toml                         - Project configuration
+
+ project1_vertebra_segmentation/        - Created
+   literature/
+     literature_review.md               - In progress (60%)
+     papers.csv                         - In progress (40%)
+     key_papers/                        - Planned
+   datasets/
+     dataset_registry.csv               - In progress (50%)
+     dataset_benchmark.md               - In progress (40%)
+     dataset_selection.md               - Planned
+   models/
+     model_benchmark.md                 - In progress (50%)
+     model_comparison.csv               - In progress (40%)
+     baseline_selection.md              - Pending
+   src/
+     preprocessing/                     - Planned
+     datasets/                          - Planned
+     models/                            - Planned
+     inference/                         - Planned
+     evaluation/                        - Planned
+     utils/                             - Planned
+   configs/                             - Planned
+   scripts/                             - Planned
+   notebooks/                           - Planned
+   results/                             - Planned
+   tests/                               - Planned
+
+ project2_navigation/                   - Created
+   competitors/
+     stealthstation.md                  - In progress (60%)
+     globus_excelsius.md                - In progress (50%)
+     stryker.md                         - In progress (40%)
+     brainlab.md                        - In progress (40%)
+     7d_surgical.md                     - In progress (30%)
+   competitor_matrix.csv                - Pending
+   competitor_analysis.md               - Planned
+   navigation_workflows.md              - Planned
+   instrument_taxonomy.md               - Planned
+   opportunity_matrix.csv               - Planned
+   figures/                             - Planned
+
+ docs/                                  - Created
+   technical_architecture.md            - Planned
+   evaluation_protocol.md               - Planned
+   technical_risks.md                   - In progress
+   research_decisions.md                - In progress (50%)
+   experiment_roadmap.md                - Planned
+   two_week_progress.md                 - Pending
+   checkin_slides.md                    - Planned
+
+ .github/                               - Created (for future CI/CD)
+ .gitignore                             - Configured
 ```
 
 ---
@@ -398,11 +398,11 @@ See [docs/technical_risks.md](docs/technical_risks.md) for detailed analysis.
 
 ## Questions for Advisor
 
-1. Preference between MONAI + PyTorch vs nnU-Net for vertebra segmentation?
-2. Should initial focus be on segmentation-only or simultaneous labeling?
-3. Are there preferred public datasets for development?
-4. Any specific interest in robotic navigation vs image-guided navigation?
-5. Priority: generalization vs pathology robustness in initial baseline?
+1. Preference between MONAI + PyTorch vs nnU-Net for vertebra segmentation
+2. Should initial focus be on segmentation-only or simultaneous labeling
+3. Are there preferred public datasets for development
+4. Any specific interest in robotic navigation vs image-guided navigation
+5. Priority: generalization vs pathology robustness in initial baseline
 
 ---
 
