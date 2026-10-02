@@ -68,8 +68,8 @@ Repository = "https://github.com/MoorthyDurga/Perfint_Research"
 Documentation = "https://github.com/MoorthyDurga/Perfint_Research"
 Issues = "https://github.com/MoorthyDurga/Perfint_Research/issues"
 
-[tool.setuptools]
-packages = ["project1_vertebra_segmentation"]
+[tool.setuptools.packages.find]
+include = ["project1_vertebra_segmentation*"]
 
 [tool.setuptools.package-data]
 project1_vertebra_segmentation = [
@@ -117,4 +117,5 @@ plugins = []
 [tool.pytest.ini_options]
 testpaths = ["project1_vertebra_segmentation/tests"]
 python_files = "test_*.py"
+pythonpath = ["."]
 addopts = "-v --tb=short"

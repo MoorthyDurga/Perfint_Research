@@ -1,0 +1,2 @@
+id,split,image,label
+verse-001,train,/absolute/path/to/verse-001_ct.nii.gz,/absolute/path/to/verse-001_seg.nii.gz

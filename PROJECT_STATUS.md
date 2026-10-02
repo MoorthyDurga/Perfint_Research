@@ -1,5 +1,12 @@
 # Project Status Report
 
+> **Superseded status note (October 2, 2026):** This document describes the
+> September planning state and is retained for history. The evidence-backed
+> current status is in [docs/MEETING_READINESS.md](docs/MEETING_READINESS.md):
+> implementation scaffolding and synthetic tests are present, but VerSe access,
+> a working MONAI/PyTorch runtime, trained weights, and quantitative results are
+> all pending. Do not interpret estimates in this document as measured results.
+
 **As of:** September 7, 2026
 **Repository:** Perfint_Research (main branch)
 **Status:** Active - Phase 1/2 in progress

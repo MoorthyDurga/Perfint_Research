@@ -29,21 +29,13 @@ Focus: Imaging, registration, tracking, planning, and robotic guidance workflows
 | Component | Status |
 |-----------|--------|
 | Repository initialization | [OK] COMPLETE |
-| Literature review | IN PROGRESS |
-| Dataset benchmark | IN PROGRESS |
-| Model architecture benchmark | IN PROGRESS |
-| MONAI framework evaluation | IN PROGRESS |
-| Baseline model selection | PENDING |
-| Development environment | PENDING |
-| CT preprocessing pipeline | PLANNED |
-| Dataset interface | PLANNED |
-| Inference framework | PLANNED |
-| Evaluation metrics | PLANNED |
-| Quantitative experiments | PENDING |
-| Competitor analysis | IN PROGRESS |
-| Navigation workflow mapping | PLANNED |
-| Instrument taxonomy | PLANNED |
-| Technical opportunity analysis | PLANNED |
+| Research decisions (literature, dataset, framework, baseline) | DOCUMENTED |
+| CT preprocessing pipeline | IMPLEMENTED; pending real-CT validation |
+| Dataset interface | IMPLEMENTED; pending VerSe manifest and smoke test |
+| 3D U-Net and sliding-window inference | IMPLEMENTED; untrained |
+| Evaluation metrics | IMPLEMENTED; synthetic tests passing |
+| Quantitative experiments | BLOCKED on dataset/runtime; no results yet |
+| Competitor analysis, workflow, taxonomy, opportunity analysis | DOCUMENTED |
 
 ## Repository Structure
 

@@ -1,0 +1,4 @@
+target_spacing_mm: [1.0, 1.0, 1.0]
+orientation: RAS
+window_hu: [-1000, 400]
+normalization: minmax_0_1
