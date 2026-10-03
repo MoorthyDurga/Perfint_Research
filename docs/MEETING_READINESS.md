@@ -4,12 +4,13 @@
 
 - The research decisions are documented: VerSe is the proposed primary dataset, MONAI/PyTorch is the chosen framework, and a 3D U-Net is the selected baseline.
 - A runnable implementation baseline now exists for NIfTI loading/orientation, 1 mm resampling, HU windowing, a paired CT/label dataset abstraction, MONAI 3D U-Net construction, sliding-window inference, and Dice/IoU/HD95 metrics.
+- `synthetic_smoke_train.py` can exercise the model, gradient, optimizer, and metric path on deliberately synthetic CT-like volumes. Its output is only a software smoke test, never a clinical or VerSe result.
 - Synthetic unit tests cover preprocessing and metrics.
 
 ## Not yet verified -- do not describe as results
 
 - No VerSe volume, annotation, split, or data-integrity check is present in this repository.
-- No local MONAI/PyTorch runtime or GPU was available when this update was prepared.
+- A local CPU MONAI/PyTorch runtime has passed a synthetic training smoke test; GPU availability for VerSe training remains unverified.
 - No model has been trained. Therefore Dice, IoU, HD95, labeling accuracy, and inference-time values are all **pending**.
 
 ## Demonstration protocol once VerSe and the environment are available

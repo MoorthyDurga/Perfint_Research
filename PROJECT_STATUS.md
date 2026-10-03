@@ -25,6 +25,7 @@ results from this project.
 | CT preprocessing | IMPLEMENTED | RAS-oriented NIfTI loading, resampling to 1 mm, HU windowing/normalization |
 | Dataset interface | IMPLEMENTED | Paired CT/label `CTVolumeDataset` plus manifest template |
 | Baseline model | IMPLEMENTED, UNTRAINED | Configurable MONAI 3D U-Net |
+| Local training smoke test | COMPLETE | CPU synthetic training: loss 0.6160 to 0.1197; Dice 0.8723 (non-clinical) |
 | Inference | IMPLEMENTED, UNVALIDATED | Sliding-window predictor |
 | Evaluation | IMPLEMENTED | Dice, IoU, HD95; synthetic tests pass |
 | Quantitative validation | NOT STARTED | Requires VerSe data, confirmed split/label map, and training runtime |
@@ -51,7 +52,7 @@ results from this project.
 ## Current blockers and decisions
 
 - **Data:** confirm VerSe availability, local storage, label map, and split before training.
-- **Compute:** confirm a MONAI/PyTorch-compatible GPU and available memory/compute allocation.
+- **Compute:** local CPU execution is verified; confirm a MONAI/PyTorch-compatible GPU and available memory/compute allocation for VerSe training.
 - **Scope:** agree that the next milestone is a reproducible VerSe baseline, not a clinical or navigation-performance claim.
 
 ## Verification
@@ -63,3 +64,4 @@ pytest project1_vertebra_segmentation/tests
 ```
 
 See [meeting readiness](docs/MEETING_READINESS.md) for the live-data demonstration protocol and meeting decisions.
+See [local smoke-test evidence](docs/LOCAL_SMOKE_TEST.md) for the reproducible synthetic run.
