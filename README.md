@@ -172,6 +172,15 @@ pip install torch torchvision torchaudio --index-url https://download.pytorch.or
 
 ## Quick Start
 
+### Check current progress
+
+```bash
+python project1_vertebra_segmentation/scripts/check_progress.py
+```
+
+This reports repository-backed milestones and distinguishes a local subset
+checkpoint from full-split training and held-out evaluation.
+
 ### 1. Preprocess CT data
 
 ```bash
