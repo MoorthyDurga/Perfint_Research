@@ -47,6 +47,10 @@ env/
 # Large datasets
 data/
 datasets/
+# Keep the Python dataset module; only top-level downloaded datasets are ignored.
+!project1_vertebra_segmentation/src/datasets/
+!project1_vertebra_segmentation/src/datasets/**
+project1_vertebra_segmentation/src/datasets/__pycache__/
 models/pretrained/
 results/outputs/
 
