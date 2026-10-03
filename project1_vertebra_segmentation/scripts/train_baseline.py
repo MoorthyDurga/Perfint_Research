@@ -15,6 +15,7 @@ def main() -> None:
     parser.add_argument("--manifest", type=Path, required=True)
     parser.add_argument("--epochs", type=int, default=100)
     parser.add_argument("--patch-size", type=int, default=96)
+    parser.add_argument("--small-model", action="store_true", help="Use a small model for CPU-only subset smoke runs.")
     parser.add_argument("--output", type=Path, default=Path("results/checkpoints/baseline.pt"))
     args = parser.parse_args()
     try:
@@ -56,7 +57,7 @@ def main() -> None:
     dataset = CacheDataset(records, transform=transforms, cache_rate=0.1, num_workers=0)
     loader = DataLoader(dataset, batch_size=1, shuffle=True, num_workers=0)
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    model = build_baseline(out_channels=29).to(device)
+    model = build_baseline(out_channels=29, channels=(8, 16, 32) if args.small_model else (32, 64, 128, 256, 512)).to(device)
     optimiser = torch.optim.AdamW(model.parameters(), lr=1e-4)
     loss_fn = DiceCELoss(to_onehot_y=True, softmax=True)
 

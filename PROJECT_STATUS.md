@@ -26,6 +26,7 @@ results from this project.
 | Dataset interface | IMPLEMENTED | Paired CT/label `CTVolumeDataset` plus manifest template |
 | Baseline model | IMPLEMENTED, UNTRAINED | Configurable MONAI 3D U-Net |
 | Local training smoke test | COMPLETE | CPU synthetic training: loss 0.6160 to 0.1197; Dice 0.8723 (non-clinical) |
+| Limited real-data pipeline run | COMPLETE, NON-BENCHMARK | Two VerSe CT/mask pairs; CPU 5-epoch loss 4.4686 to 4.2178; checkpoint saved |
 | Inference | IMPLEMENTED, UNVALIDATED | Sliding-window predictor |
 | Evaluation | IMPLEMENTED | Dice, IoU, HD95; synthetic tests pass |
 | Quantitative validation | NOT STARTED | Requires VerSe data, confirmed split/label map, and training runtime |
@@ -66,3 +67,4 @@ pytest project1_vertebra_segmentation/tests
 
 See [meeting readiness](docs/MEETING_READINESS.md) for the live-data demonstration protocol and meeting decisions.
 See [local smoke-test evidence](docs/LOCAL_SMOKE_TEST.md) for the reproducible synthetic run.
+See [VerSe subset smoke-test evidence](docs/VERSE_SUBSET_SMOKE_TEST.md) for the limited real-data run.
