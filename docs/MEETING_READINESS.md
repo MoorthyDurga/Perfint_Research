@@ -21,6 +21,10 @@
 4. Build the 3D U-Net, run a forward pass and sliding-window inference, and record GPU/device plus elapsed time.
 5. Start baseline training only after the official patient-level split and VerSe label mapping have been confirmed.
 
+The repository includes `build_verse_manifest.py` and `train_baseline.py` for this
+stage. The official training archive alone is 11.5 GB compressed and needs more
+than the currently available 23 GB disk space once extracted and checkpointed.
+
 ## Decisions needed from the meeting
 
 1. Confirm access and permitted storage for VerSe 2020; confirm whether CTSpine1K is available later for robustness testing.

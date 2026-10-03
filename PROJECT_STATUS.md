@@ -29,6 +29,7 @@ results from this project.
 | Inference | IMPLEMENTED, UNVALIDATED | Sliding-window predictor |
 | Evaluation | IMPLEMENTED | Dice, IoU, HD95; synthetic tests pass |
 | Quantitative validation | NOT STARTED | Requires VerSe data, confirmed split/label map, and training runtime |
+| VerSe ingestion/training tools | IMPLEMENTED | Manifest builder and MONAI training entry point; dataset download blocked by local storage |
 | Anatomical labeling and pedicle planning | NOT STARTED | Starts after segmentation baseline validation |
 
 ### Immediate next steps
@@ -51,7 +52,7 @@ results from this project.
 
 ## Current blockers and decisions
 
-- **Data:** confirm VerSe availability, local storage, label map, and split before training.
+- **Data/storage:** VerSe is publicly available, but its 11.5 GB training archive cannot be safely extracted alongside checkpoints with only 23 GB free. Provide a location with at least 50 GB free, then confirm the label map and split.
 - **Compute:** local CPU execution is verified; confirm a MONAI/PyTorch-compatible GPU and available memory/compute allocation for VerSe training.
 - **Scope:** agree that the next milestone is a reproducible VerSe baseline, not a clinical or navigation-performance claim.
 
